@@ -1,8 +1,5 @@
 <template>
-  <div>
-    账本页面
-    <Nav />
-  </div>
+  <Layout>账本</Layout>
 </template>
 
 <script>

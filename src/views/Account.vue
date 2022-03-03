@@ -1,8 +1,5 @@
 <template>
-  <div>
-    记账也
-    <Nav />
-  </div>
+  <Layout>记账页</Layout>
 </template>
 
 <script>

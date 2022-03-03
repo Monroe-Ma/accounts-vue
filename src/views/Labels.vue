@@ -1,8 +1,5 @@
 <template>
-  <div>
-    标签页
-    <Nav />
-  </div>
+  <Layout>标签页</Layout>
 </template>
 
 <script>
