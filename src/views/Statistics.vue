@@ -1,10 +1,13 @@
 <template>
-  <div>统计页</div>
+  <div>
+    统计页
+    <Nav />
+  </div>
 </template>
 
 <script>
 export default {
-
+  name: "Statistics"
 }
 </script>
 

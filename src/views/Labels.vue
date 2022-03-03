@@ -1,10 +1,13 @@
 <template>
-  <div>标签页</div>
+  <div>
+    标签页
+    <Nav />
+  </div>
 </template>
 
 <script>
 export default {
-
+  name: "Labels"
 }
 </script>
 
