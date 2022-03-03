@@ -1,23 +1,22 @@
 <template>
   <nav>
     <router-link class="item" to="/account" active-class="selected">
-      <Icon name="write" />记账
+      <Icon name="tianjia" />记账
     </router-link>
     <router-link class="item" to="/book" active-class="selected">
-      <Icon name="book" />账本
+      <Icon name="jizhangben" />账本
     </router-link>
     <router-link class="item" to="/labels" active-class="selected">
-      <Icon name="tags" />标签
+      <Icon name="fenlei" />标签
     </router-link>
     <router-link class="item" to="/statistics" active-class="selected">
-      <Icon name="analysis" />统计
+      <Icon name="board" />统计
     </router-link>
   </nav>
 </template>
 
 <script>
 export default {
-
 }
 </script>
 
@@ -27,6 +26,7 @@ nav {
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
   flex-direction: row;
   font-size: 14px;
+  color: #d8d8d8;
   > .item {
     padding: 2px 0;
     width: 33.33333%;
@@ -37,11 +37,10 @@ nav {
     .icon {
       width: 32px;
       height: 32px;
-      fill: #333;
     }
   }
   > .item.selected {
-    color: red;
+    color: #fe9c3c;
   }
 }
 </style>
