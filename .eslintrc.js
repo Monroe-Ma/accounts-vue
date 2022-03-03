@@ -1,5 +1,8 @@
 module.exports = {
   root: true,
+   globals:{
+        "__WebpackModuleApi":"writable"
+    },
   env: {
     node: true
   },
