@@ -4,6 +4,7 @@ import Account from '@/views/Account.vue'
 import Labels from '@/views/Labels.vue'
 import Statistics from '@/views/Statistics.vue'
 import Book from '@/views/Book.vue'
+import Notfound from '@/views/Notfound.vue'
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
@@ -23,9 +24,13 @@ const routes: Array<RouteConfig> = [
     path: '/book',
     component: Book
   },
-        {
+  {
     path: '/statistics',
     component: Statistics
+  },
+    {
+    path: '*',
+    component: Notfound
   },
   // {
   //   path: '/about',
