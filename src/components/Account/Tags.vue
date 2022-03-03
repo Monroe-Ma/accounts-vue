@@ -35,6 +35,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "~@/assets/reset.scss";
 .tags {
   font-size: 14px;
   padding: 16px;
