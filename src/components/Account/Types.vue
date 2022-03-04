@@ -20,25 +20,9 @@ export default class Types extends Vue {
       throw new Error("type is unknown");
     }
     this.type = type; //type只能是“-”或“+”，其中之一
+    return;
   }
 }
-
-// export default {
-//   name: 'Types',
-//   data () {
-//     return {
-//       type: '-', //“-”表示支出，“+”表示收入  lang="ts"
-//     };
-//   },
-//   methods: {
-//     selectType (type) {
-//       if (type !== '-' && type !== '+') {
-//         throw new Error('type is unknown');
-//       }
-//       this.type = this.type; //type只能是“-”或“+”，其中之一
-//     },
-//   },
-// };
 </script>
 
 <style lang="scss" scoped>
