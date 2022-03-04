@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Component } from "vue-property-decorator";
+import { Component, Watch } from "vue-property-decorator";
 @Component
 export default class Notes extends Vue {
   value = "";
@@ -20,6 +20,10 @@ export default class Notes extends Vue {
   //   const input = event.target as HTMLInputElement;
   //   this.value = input.value;
   // }
+  @Watch("value")
+  onValueChange(value: string) {
+    this.$emit("update:value", value);
+  }
 }
 </script>
 
