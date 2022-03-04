@@ -19,7 +19,6 @@ export default {
     return{
     tags:["衣","食","住","行"]
     }
-    return
   }
 };
 </script>

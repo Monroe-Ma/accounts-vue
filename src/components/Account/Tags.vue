@@ -4,7 +4,7 @@
       <button>新增标签</button>
     </div>
     <ul class="current">
-      <li v-for="tag in dataSource,index " key="index ">{{tag}}</li>
+      <li v-for="tag in dataSource " key="tag ">{{tag}}</li>
     </ul>
   </div>
 </template>
