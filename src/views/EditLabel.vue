@@ -9,7 +9,7 @@
     <div class="form-wrapper">
       <label for>
         标签名
-        <input type="text" />
+        <input :value="tag.name" type="text" />
       </label>
     </div>
     <div class="button-wrapper">
@@ -26,13 +26,14 @@ import Button from "@/components/Button.vue";
 
 @Component
 export default class EditLabel extends Vue {
+  tag?: { id: string; name: string } = undefined;
   created() {
     const id = this.$route.params.id;
     modelTags.fetch();
     const tags = modelTags.data;
     const tag = tags.filter((t) => t.id === id)[0];
     if (tag) {
-      console.log(tag);
+      this.tag = tag;
     } else {
       this.$router.replace("./404");
     }
@@ -50,8 +51,7 @@ export default class EditLabel extends Vue {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  > .title {
-  }
+
   > .leftIcon {
     width: 24px;
     height: 24px;
