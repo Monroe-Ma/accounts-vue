@@ -15,7 +15,7 @@
           @updateTag:value="updateTag"
         />
       </label>-->
-      <FormItem fileName="标签名" :value="tag.name" />
+      <FormItem fileName="标签名" :value="tag.name" @updateTag:value="updateTag" />
     </div>
     <div class="button-wrapper">
       <Button @click="remove">删除标签</Button>
@@ -47,7 +47,7 @@ export default class EditLabel extends Vue {
     }
   }
   updateTag(id: string, name: string) {
-    console.log(name);
+    console.log("111", name);
     if (this.tag) {
       modelTags.update(this.tag.id, name);
     }
@@ -60,10 +60,10 @@ export default class EditLabel extends Vue {
   goBack() {
     this.$router.back();
   }
-  @Watch("value")
-  onValueChanged(value: string) {
-    this.$emit("update:value", value);
-  }
+  // @Watch("value")
+  // onValueChanged(value: string) {
+  //   this.$emit("update:value", value);
+  // }
 }
 </script>
 

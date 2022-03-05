@@ -7,7 +7,7 @@
       <input
         type="text"
         :value="value"
-        @input="onValueChang($emit.target.value) "
+        @input="onValueChange($event.target.value)"
         :placeholder="placeholder"
       />
     </label>
@@ -19,16 +19,17 @@ import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 @Component
 export default class FormItem extends Vue {
-  @Prop({ default: "" }) readonly value!: string;
+  @Prop({ default: " " }) readonly value!: string;
   @Prop({ required: true }) fileName!: string;
   @Prop() placeholder?: string;
   // onInput(event: KeyboardEvent) {
   //   const input = event.target as HTMLInputElement;
   //   this.value = input.value;
   // }
-  @Watch("value")
-  onValueChange(value: string) {
-    this.$emit("update:value", value);
+  // @Watch("value")
+  onValueChange(newValue: string) {
+    console.log(newValue);
+    this.$emit("update:value", newValue);
   }
 }
 </script>
