@@ -2,19 +2,26 @@
 <template>
   <div>
     <label class="notes">
-      <span class="name">备注</span>
+      <span class="name">{{this.fileName}}</span>
       <!-- <input type="text" :value="value" @input=" onInput  " placeholder="在这里输入备注" /> -->
-      <input type="text" v-model="value" placeholder="在这里输入备注" />
+      <input
+        type="text"
+        :value="value"
+        @input="onValueChang($emit.target.value) "
+        :placeholder="placeholder"
+      />
     </label>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import { Component, Watch } from "vue-property-decorator";
+import { Component, Prop, Watch } from "vue-property-decorator";
 @Component
-export default class Notes extends Vue {
-  value = "";
+export default class FormItem extends Vue {
+  @Prop({ default: "" }) readonly value!: string;
+  @Prop({ required: true }) fileName!: string;
+  @Prop() placeholder?: string;
   // onInput(event: KeyboardEvent) {
   //   const input = event.target as HTMLInputElement;
   //   this.value = input.value;

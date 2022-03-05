@@ -1,4 +1,4 @@
-
+import  "@/lib/idCreate"
 const localStorageKeyName = "tagList"
 type tag = {
   id: string
@@ -25,8 +25,9 @@ const modelTags :tagListName = {
     const names= this.data.map(item=>item.name)
     if (names.indexOf(name) >= 0) {
       return  "duplicated"
-     }
-    this.data.push({ id: name, name: name })
+    }
+    const id =idCreate().toString()
+    this.data.push({id, name: name })
     this.save()
     return "success"
   },
@@ -64,3 +65,4 @@ const modelTags :tagListName = {
   }
 
 export default modelTags
+

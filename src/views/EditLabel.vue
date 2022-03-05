@@ -6,7 +6,7 @@
       <span class="rightIcon"></span>
     </div>
     <div class="form-wrapper">
-      <label for>
+      <!-- <label for>
         标签名
         <input
           :value="tag&&tag.name ||''"
@@ -14,7 +14,8 @@
           @input="onValueChanged($event.target.value)"
           @updateTag:value="updateTag"
         />
-      </label>
+      </label>-->
+      <FormItem fileName="标签名" :value="tag.name" />
     </div>
     <div class="button-wrapper">
       <Button @click="remove">删除标签</Button>
@@ -27,9 +28,10 @@ import modelTags from "@/models/modelTags";
 import Vue from "vue";
 import { Component, Watch } from "vue-property-decorator";
 import Button from "@/components/Button.vue";
+import FormItem from "@/components/Account/FormItem.vue";
 
 @Component({
-  components: { Button },
+  components: { Button, FormItem },
 })
 export default class EditLabel extends Vue {
   tag?: { id: string; name: string } = undefined;
