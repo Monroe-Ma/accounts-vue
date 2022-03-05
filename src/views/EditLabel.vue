@@ -1,6 +1,8 @@
 
 <template>
-  <div>编辑标签</div>
+  <Layout>
+    <div>编辑标签</div>
+  </Layout>
 </template>
 
 <script lang="ts">
