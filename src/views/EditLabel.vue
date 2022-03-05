@@ -1,4 +1,3 @@
-
 <template>
   <Layout>
     <div class="navBar">
@@ -9,11 +8,16 @@
     <div class="form-wrapper">
       <label for>
         标签名
-        <input :value="tag.name" type="text" />
+        <input
+          :value="tag.name"
+          type="text"
+          @input="onValueChanged($event.target.value)"
+          @updateTag:value="updateTag"
+        />
       </label>
     </div>
     <div class="button-wrapper">
-      <Button>删除标签</Button>
+      <Button @click="remove">删除标签</Button>
     </div>
   </Layout>
 </template>
@@ -21,10 +25,12 @@
 <script lang="ts">
 import modelTags from "@/models/modelTags";
 import Vue from "vue";
-import { Component } from "vue-property-decorator";
+import { Component, Watch } from "vue-property-decorator";
 import Button from "@/components/Button.vue";
 
-@Component
+@Component({
+  components: { Button },
+})
 export default class EditLabel extends Vue {
   tag?: { id: string; name: string } = undefined;
   created() {
@@ -38,6 +44,21 @@ export default class EditLabel extends Vue {
       this.$router.replace("./404");
     }
   }
+  updateTag(id: string, name: string) {
+    console.log(name);
+    if (this.tag) {
+      modelTags.update(this.tag.id, name);
+    }
+  }
+  remove(id: string) {
+    if (this.tag) {
+      modelTags.remove(this.tag.id);
+    }
+  }
+  // @Watch("value")
+  // onValueChanged(value: string) {
+  //   this.$emit("update:value", value);
+  // }
 }
 </script>
 
@@ -71,4 +92,3 @@ export default class EditLabel extends Vue {
   margin-top: 44-16px;
 }
 </style>
-
