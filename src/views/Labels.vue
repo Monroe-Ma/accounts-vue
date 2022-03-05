@@ -1,20 +1,36 @@
 <template>
   <Layout>
     <ol class="tags">
-      <li>
-        <span>吃饭</span>
+      <li v-for=" tag in tags " :key="tag">
+        <span>{{tag}}</span>
         <Icon name="arrowRight" />
       </li>
     </ol>
     <div class="createTag-wrapper">
-      <button class="createTag">新建标签</button>
+      <button class="createTag" @click="createTag">新建标签</button>
     </div>
   </Layout>
 </template>
 
-<script>
-export default {
-  name: "Labels"
+<script lang="ts">
+import Vue from "vue";
+import { Component } from "vue-property-decorator";
+import modelTags from "../models/modelTags";
+modelTags.fetch();
+@Component
+export default class Labels extends Vue {
+  tags = modelTags.data;
+  createTag() {
+    const name = window.prompt("请输入标签");
+    if (name) {
+      const message = modelTags.create(name);
+      if (message === "duplicated") {
+        window.alert("标签重复了");
+      } else if (message === "success") {
+        window.alert("添加标签成功");
+      }
+    }
+  }
 }
 </script>
 
@@ -29,12 +45,12 @@ export default {
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid #e6e6e6;
-    svg {
-      width: 18px;
-      height: 18px;
-      color: #666;
-      margin-right: 16px;
-    }
+  }
+  svg {
+    width: 18px;
+    height: 18px;
+    color: #666;
+    margin-right: 16px;
   }
 }
 .createTag {
@@ -50,5 +66,4 @@ export default {
     margin-top: 44-16px;
   }
 }
-</style>
 </style>
