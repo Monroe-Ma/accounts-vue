@@ -1,7 +1,7 @@
 <template>
   <Layout>
     <div class="navBar">
-      <Icon name="arrowLeft" />
+      <Icon name="arrowLeft" @click="goBack" />
       <span class="title">编辑标签</span>
       <span class="rightIcon"></span>
     </div>
@@ -9,7 +9,7 @@
       <label for>
         标签名
         <input
-          :value="tag.name"
+          :value="tag&&tag.name ||''"
           type="text"
           @input="onValueChanged($event.target.value)"
           @updateTag:value="updateTag"
@@ -55,10 +55,13 @@ export default class EditLabel extends Vue {
       modelTags.remove(this.tag.id);
     }
   }
-  // @Watch("value")
-  // onValueChanged(value: string) {
-  //   this.$emit("update:value", value);
-  // }
+  goBack() {
+    this.$router.back();
+  }
+  @Watch("value")
+  onValueChanged(value: string) {
+    this.$emit("update:value", value);
+  }
 }
 </script>
 

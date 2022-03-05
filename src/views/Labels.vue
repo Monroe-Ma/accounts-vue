@@ -6,8 +6,7 @@
         <Icon name="arrowRight" />
       </router-link>
     </div>
-    <div class="createTag-wrapper">
-      <!-- <Button @click="createTag">新建标签</Button> -->
+    <div class="button-wrapper">
       <Button @click="createTag">新建标签</Button>
     </div>
   </Layout>
@@ -20,7 +19,9 @@ import modelTags from "../models/modelTags";
 import Button from "../components/Button.vue";
 
 modelTags.fetch();
-@Component
+@Component({
+  components: { Button },
+})
 export default class Labels extends Vue {
   tags = modelTags.data;
   createTag() {
@@ -56,17 +57,9 @@ export default class Labels extends Vue {
     margin-right: 16px;
   }
 }
-/* .createTag {
-  background: #767676;
-  color: white;
-  border-radius: 4px;
-  border: none;
-  height: 40px;
-  padding: 0 16px;
-  &-wrapper {
-    text-align: center;
-    padding: 16px;
-    margin-top: 44-16px;
-  }
-} */
+.button-wrapper {
+  text-align: center;
+  padding: 16px;
+  margin-top: 44-16px;
+}
 </style>
