@@ -1,4 +1,4 @@
-import  "@/lib/idCreate"
+import idCreate from "@/lib/idCreate"
 const localStorageKeyName = "tagList"
 type tag = {
   id: string
@@ -32,20 +32,17 @@ const modelTags :tagListName = {
     return "success"
   },
   update(id:string,name:string ) {
-   const idList = this.data.map(t=>t.id)
-    if (idList.indexOf(id)>=0) { 
-   const names = this.data.map(t => t.name = name )
-    if (names.indexOf(name) >= 0) { 
-     return "duplicated"
-    }else {
-      const tag = this.data.filter(t => id === t.id)[0]
-     tag.name=name
-     this.save()
-      return "success"
-   } 
-   } else  {  
-     return "no found"
-}
+    const idList = this.data.map((t) => t.id);
+    if (idList.indexOf(id) >= 0) {
+      const names = this.data.map((t) => (t.name = name));
+      if (names.indexOf(name) >= 0) {
+        const tag = this.data.filter((t) => id === t.id)[0];
+        tag.name = name;
+        this.save();
+        return "success";
+      } 
+    }
+    return "no found";
   },
   remove(id) {
     let index=-1
