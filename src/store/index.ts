@@ -7,14 +7,25 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+type RootState = {
+  recordList: RecordItem[],
+  tagList: tag[],
+  currentTag?: tag
+}
+
 const store= new Vuex.Store({
   state: {
     recordList: [] as RecordItem[],
-    tagList:[] as tag[]
-  },
+    tagList: [] as tag[],
+    currentTag:undefined
+  } as RootState,
   mutations: {
-      fetchRecords(state) {
-   state.recordList= JSON.parse(window.localStorage.getItem("recordList") || "[]") as RecordItem[]
+    setCurrentTag(state,id:string) { 
+
+    state.currentTag  =  state.tagList.filter((t) => t.id === id)[0];
+    },
+    fetchRecords(state) {
+    state.recordList= JSON.parse(window.localStorage.getItem("recordList") || "[]") as RecordItem[]
      return this.recordList
   },
     createRecord(state,record) {
@@ -46,7 +57,8 @@ const store= new Vuex.Store({
     },
     saveTag(state) {
     window.localStorage.setItem("tagList", JSON.stringify(state.tagList));
-  }
+    },
+
   },
 
 

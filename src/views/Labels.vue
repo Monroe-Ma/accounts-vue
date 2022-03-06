@@ -17,11 +17,6 @@
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import Button from "../components/Button.vue";
-
-// import tagStore from "@/store/tagStore";
-
-// tagStore.fetchTag();
-
 @Component({
   components: { Button },
   computed: {

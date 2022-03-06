@@ -26,10 +26,12 @@ import tagStore from "@/store/tagStore";
   components: { Button, FormItem },
 })
 export default class EditLabel extends Vue {
-  //tudo
-  tag?: tag = undefined;
+  get tag() {
+    return this.$store.state.currenTag;
+  }
   created() {
-    this.tag = tagStore.findTag(this.$route.params.id);
+    const id = this.$route.params.id;
+    this.$store.commit("setCurrentTag", id);
     if (!this.tag) {
       this.$router.replace("./404");
     }
