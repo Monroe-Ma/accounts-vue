@@ -21,13 +21,16 @@ import { Component, Prop } from "vue-property-decorator";
 @Component({
   computed: {
     tagList() {
-      return [];
+      return this.$store.state.tagList;
     },
   },
 })
 export default class Tags extends Vue {
   // tagList = store.fetchTag();
   selectTags: string[] = [];
+  created() {
+    this.$store.commit("fetchTag");
+  }
 
   toggle(tag: string) {
     const index = this.selectTags.indexOf(tag);
@@ -44,13 +47,14 @@ export default class Tags extends Vue {
     if (!name) {
       return window.alert("标签不能为空");
     }
-    // store.createTag(name);
+    this.$store.commit("createTag", name);
   }
 }
 </script>
 
 <style lang="scss" scoped>
 @import "~@/assets/reset.scss";
+
 .tags {
   font-size: 14px;
   padding: 16px;
