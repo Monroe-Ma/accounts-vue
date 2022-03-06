@@ -14,6 +14,8 @@ const recordListModel = {
   },
 
   save() { 
+    console.log("data", this.data);
+    
     return  window.localStorage.setItem(localStorageKeyName, JSON.stringify( this.data));
   }
   }

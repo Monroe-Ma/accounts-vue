@@ -20,4 +20,7 @@ type tagListName = {
 interface Window {
   tagList: tag[];
   createTag: (name: string) => void
+  removeTag: (id: string) => boolean
+  updateTag: tagListName["update"]
+  findTag:(id: string)=>tag | undefined
 }

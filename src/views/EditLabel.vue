@@ -25,27 +25,24 @@ import FormItem from "@/components/Account/FormItem.vue";
   components: { Button, FormItem },
 })
 export default class EditLabel extends Vue {
-  tag: { id: string; name: string } = { id: "", name: "" };
+  tag?: tag = { id: "", name: "" };
   created() {
-    const id = this.$route.params.id;
-    modelTags.fetch();
-    const tags = modelTags.data;
-    const tag = tags.filter((t) => t.id === id)[0];
-    if (tag) {
-      this.tag = tag;
-    } else {
+    if (!window.findTag(this.$route.params.id)) {
       this.$router.replace("./404");
     }
   }
   updateTag(newName: string) {
-    // console.log("newName", newName);
     if (this.tag) {
       modelTags.update(this.tag.id, newName);
     }
   }
   remove(id: string) {
     if (this.tag) {
-      modelTags.remove(this.tag.id);
+      if (window.removeTag(this.tag.id)) {
+        this.$router.back();
+      } else {
+        window.alert("删除失败");
+      }
     }
   }
   goBack() {

@@ -19,7 +19,16 @@ window.createTag=(name:string)=> {
       } else if (message === "success") {
         window.alert("添加标签成功");
       }
+}
+window.findTag = (id:string ) => {
+   return  window.tagList.filter((t) => t.id === id)[0];
  }
+window.removeTag = (id:string) => { 
+ return modelTags.remove(id)
+}
+window.updateTag = (id:string,name:string) => { 
+ return modelTags.update(id, name);
+}
 new Vue({
   router:router,
   store,
