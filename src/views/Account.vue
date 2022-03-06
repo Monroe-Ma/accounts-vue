@@ -17,7 +17,6 @@ import NumberPad from "@/components/Account/NumberPad.vue";
 import { Component } from "vue-property-decorator";
 
 import tagStore from "@/store/tagStore";
-import recordStore from "@/store/recordStore";
 
 const tagList = tagStore.fetchTag();
 type RecordItem = {
@@ -29,15 +28,12 @@ type RecordItem = {
 };
 @Component({
   components: { Tags, FormItem, Types, NumberPad },
-  computed: {
-    recordList() {
-      return this.$store.state.count;
-    },
-  },
 })
 export default class Account extends Vue {
   tags = tagList;
-
+  get recordList() {
+    return this.$store.state.count;
+  }
   record: RecordItem = {
     tags: [],
     notes: "",
