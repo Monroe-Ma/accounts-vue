@@ -15,11 +15,11 @@ import Tags from "@/components/Account/Tags.vue";
 import FormItem from "@/components/Account/FormItem.vue";
 import NumberPad from "@/components/Account/NumberPad.vue";
 import { Component, Watch } from "vue-property-decorator";
-import recordListModel from "../models/recordListModel";
-import modelTags from "../models/modelTags";
 import store from "@/store/index2";
+import tagStore from "@/store/tagStore";
+import recordStore from "@/store/recordStore";
 
-const tagList = modelTags.fetch();
+const tagList = tagStore.fetchTag();
 type RecordItem = {
   tags: string[];
   notes: string;
@@ -50,7 +50,7 @@ export default class Account extends Vue {
     this.record.amount = value;
   }
   saveRecord() {
-    store.createRecord(this.record);
+    recordStore.createRecord(this.record);
   }
 }
 </script>
