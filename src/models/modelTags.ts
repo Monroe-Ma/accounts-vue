@@ -15,15 +15,9 @@ type tagListName = {
 }
 const modelTags :tagListName = {
   data: [],
-
-  
   fetch() {
     this.data = JSON.parse(window.localStorage.getItem(localStorageKeyName) || "[]") 
-       console.log("fetch",this.data);
-    
-    return this.data
-
-   
+    return this.data 
   },
   create(name) { 
     const names= this.data.map(item=>item.name)
@@ -39,19 +33,10 @@ const modelTags :tagListName = {
   },
   update(id:string,name:string ) {
     const idList = this.data.map(t => t.id)
-    // console.log("idList",idList);
-    
+
     if (idList.indexOf(id)>=0) { 
-      // const names = this.data.map(t => t.name)
-      // console.log("this.data",this.data);
-      // console.log("names", names);
-      // console.log("name", name);
-      // console.log("name", name);
         const tag = this.data.filter(t => id === t.id)[0]
-          console.log("tag",tag);
         tag.name = name
-        console.log("name",name);
-        
       this.save()
         return "success"
       

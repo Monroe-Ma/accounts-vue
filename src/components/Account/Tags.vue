@@ -25,12 +25,16 @@ export default class Tags extends Vue {
 
   toggle(tag: string) {
     const index = this.selectTags.indexOf(tag);
+    console.log("index", index);
+
     if (index >= 0) {
       this.selectTags.splice(index, 1);
     } else {
       this.selectTags.push(tag);
     }
     this.$emit("update:value", this.selectTags);
+    console.log("this.selectTags", this.selectTags);
+    console.log("tag", tag);
   }
   create() {
     const name = window.prompt("请输入标签");
