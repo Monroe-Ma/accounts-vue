@@ -18,6 +18,7 @@ import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import modelTags from "../models/modelTags";
 import Button from "../components/Button.vue";
+import store from "@/store/index2";
 
 modelTags.fetch();
 @Component({
@@ -28,7 +29,7 @@ export default class Labels extends Vue {
   createTag() {
     const name = window.prompt("请输入标签");
     if (name) {
-      window.createTag(name);
+      store.createTag(name);
     }
   }
 }

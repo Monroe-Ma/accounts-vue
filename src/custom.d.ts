@@ -18,6 +18,7 @@ type tagListName = {
   remove:(id: string)=>boolean
 }
 interface Window {
+  store:{ 
   tagList: tag[];
   createTag: (name: string) => void
   removeTag: (id: string) => boolean
@@ -25,4 +26,6 @@ interface Window {
   findTag: (id: string) => tag | undefined
   recordList: RecordItem[]
   createRecord:(record:RecordItem)=>void
+  }
+  
 }
