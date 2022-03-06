@@ -21,7 +21,7 @@ import { Component, Prop } from "vue-property-decorator";
 
 @Component
 export default class Tags extends Vue {
-  tagList = store.tagList;
+  tagList = store.fetchTag();
   selectTags: string[] = [];
 
   toggle(tag: string) {
@@ -33,16 +33,13 @@ export default class Tags extends Vue {
       this.selectTags.push(tag);
     }
     this.$emit("update:value", this.selectTags);
-    console.log("this.selectTags", this.selectTags);
-    console.log("tag", tag);
   }
   create() {
     const name = window.prompt("请输入标签");
-    if (name === "") {
-      window.alert("标签不能为空");
-    } else if (this.tagList) {
-      this.$emit("update:dataSource", [...this.tagList, name]);
+    if (!name) {
+      return window.alert("标签不能为空");
     }
+    store.createTag(name);
   }
 }
 </script>

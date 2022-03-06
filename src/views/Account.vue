@@ -1,7 +1,7 @@
 <template>
   <Layout class-prefix="layout">
     {{recordList}}
-    <Tags :tagList.sync=" tags " @update:value="onUpdateTags" />
+    <Tags @update:value="onUpdateTags" />
     <FormItem fileName="备注" placeholder="在这里输入备注" @update:value="onUpdateNotes" />
     <Types :value.sync="record.type" />
     <NumberPad @update:value="onUpdateAmount" @submit="saveRecord" />
@@ -39,9 +39,6 @@ export default class Account extends Vue {
     type: "-",
     amount: 0,
   };
-  onUpdateTags(value: string[]) {
-    this.record.tags = value;
-  }
   onUpdateNotes(value: string) {
     this.record.notes = value;
   }
