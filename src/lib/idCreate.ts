@@ -1,5 +1,8 @@
-let id :number =parseInt(window.localStorage.getItem("idMax")||"0") || 0
+let id: number = parseInt(window.localStorage.getItem("_idMax") || "0") || 0
+
 function idCreate () { 
   id++
+window.localStorage.setItem("_idMax", JSON.stringify(id))
   return id
 }
+export default idCreate

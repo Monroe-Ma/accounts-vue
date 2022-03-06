@@ -6,16 +6,7 @@
       <span class="rightIcon"></span>
     </div>
     <div class="form-wrapper">
-      <!-- <label for>
-        标签名
-        <input
-          :value="tag&&tag.name ||''"
-          type="text"
-          @input="onValueChanged($event.target.value)"
-          @updateTag:value="updateTag"
-        />
-      </label>-->
-      <FormItem fileName="标签名" :value="tag.name" @updateTag:value="updateTag" />
+      <FormItem fileName="标签名" :value="tag.name" @update:value="updateTag" />
     </div>
     <div class="button-wrapper">
       <Button @click="remove">删除标签</Button>
@@ -34,7 +25,7 @@ import FormItem from "@/components/Account/FormItem.vue";
   components: { Button, FormItem },
 })
 export default class EditLabel extends Vue {
-  tag?: { id: string; name: string } = undefined;
+  tag: { id: string; name: string } = { id: "", name: "" };
   created() {
     const id = this.$route.params.id;
     modelTags.fetch();
@@ -46,10 +37,10 @@ export default class EditLabel extends Vue {
       this.$router.replace("./404");
     }
   }
-  updateTag(id: string, name: string) {
-    console.log("111", name);
+  updateTag(newName: string) {
+    // console.log("newName", newName);
     if (this.tag) {
-      modelTags.update(this.tag.id, name);
+      modelTags.update(this.tag.id, newName);
     }
   }
   remove(id: string) {
@@ -60,10 +51,6 @@ export default class EditLabel extends Vue {
   goBack() {
     this.$router.back();
   }
-  // @Watch("value")
-  // onValueChanged(value: string) {
-  //   this.$emit("update:value", value);
-  // }
 }
 </script>
 

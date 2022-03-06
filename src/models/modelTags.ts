@@ -1,4 +1,5 @@
-import  "@/lib/idCreate"
+
+import idCreate from "@/lib/idCreate"
 const localStorageKeyName = "tagList"
 type tag = {
   id: string
@@ -9,14 +10,17 @@ type tagListName = {
   fetch: () => tag[]
   create: (name: string) => "success" | "duplicated"
   save: () => void
-  update: (id: string, name: string) => "success" | "no found" | "duplicated"
+  update: (id: string, name: string) => "success" | "no found" 
   remove:(id: string)=>boolean
 }
 const modelTags :tagListName = {
-  data:[],
+  data: [],
+
+  
   fetch() {
     this.data = JSON.parse(window.localStorage.getItem(localStorageKeyName) || "[]") 
-      //  console.log("111",this.data);
+       console.log("fetch",this.data);
+    
     return this.data
 
    
@@ -27,25 +31,32 @@ const modelTags :tagListName = {
       return  "duplicated"
     }
     const id =idCreate().toString()
-    this.data.push({id, name: name })
+    this.data.push({ id, name: name })
+    console.log("create",this.data);
+    
     this.save()
     return "success"
   },
   update(id:string,name:string ) {
-   const idList = this.data.map(t=>t.id)
+    const idList = this.data.map(t => t.id)
+    // console.log("idList",idList);
+    
     if (idList.indexOf(id)>=0) { 
-   const names = this.data.map(t => t.name = name )
-    if (names.indexOf(name) >= 0) { 
-     return "duplicated"
-    }else {
-      const tag = this.data.filter(t => id === t.id)[0]
-     tag.name=name
-     this.save()
-      return "success"
-   } 
-   } else  {  
+      // const names = this.data.map(t => t.name)
+      // console.log("this.data",this.data);
+      // console.log("names", names);
+      // console.log("name", name);
+      // console.log("name", name);
+        const tag = this.data.filter(t => id === t.id)[0]
+          console.log("tag",tag);
+        tag.name = name
+        console.log("name",name);
+        
+      this.save()
+        return "success"
+      
+    }  
      return "no found"
-}
   },
   remove(id) {
     let index=-1

@@ -3,7 +3,7 @@
   <div>
     <label class="notes">
       <span class="name">{{this.fileName}}</span>
-      <!-- <input type="text" :value="value" @input=" onInput  " placeholder="在这里输入备注" /> -->
+
       <input
         type="text"
         :value="value"
@@ -22,13 +22,10 @@ export default class FormItem extends Vue {
   @Prop({ default: " " }) readonly value!: string;
   @Prop({ required: true }) fileName!: string;
   @Prop() placeholder?: string;
-  // onInput(event: KeyboardEvent) {
-  //   const input = event.target as HTMLInputElement;
-  //   this.value = input.value;
-  // }
-  // @Watch("value")
+
   onValueChange(newValue: string) {
-    console.log(newValue);
+    console.log("newValue", newValue);
+
     this.$emit("update:value", newValue);
   }
 }
