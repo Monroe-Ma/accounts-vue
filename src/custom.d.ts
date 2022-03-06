@@ -5,3 +5,18 @@ type RecordItem = {
   amount: number;
   createAt?: Date;
 };
+type tag = {
+  id: string
+  name:string
+}
+type tagListName = {
+  data:tag[]
+  fetch: () => tag[]
+  create: (name: string) => "success" | "duplicated"
+  save: () => void
+  update: (id: string, name: string) => "success" | "no found" 
+  remove:(id: string)=>boolean
+}
+interface Window {
+  tagList:tag[]
+ }

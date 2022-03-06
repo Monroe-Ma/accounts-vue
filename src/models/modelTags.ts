@@ -1,18 +1,7 @@
 
 import idCreate from "@/lib/idCreate"
 const localStorageKeyName = "tagList"
-type tag = {
-  id: string
-  name:string
-}
-type tagListName = {
-  data:tag[]
-  fetch: () => tag[]
-  create: (name: string) => "success" | "duplicated"
-  save: () => void
-  update: (id: string, name: string) => "success" | "no found" 
-  remove:(id: string)=>boolean
-}
+
 const modelTags :tagListName = {
   data: [],
   fetch() {
