@@ -14,8 +14,8 @@ import Types from "@/components/Account/Types.vue";
 import Tags from "@/components/Account/Tags.vue";
 import FormItem from "@/components/Account/FormItem.vue";
 import NumberPad from "@/components/Account/NumberPad.vue";
-import { Component, Watch } from "vue-property-decorator";
-import store from "@/store/index2";
+import { Component } from "vue-property-decorator";
+
 import tagStore from "@/store/tagStore";
 import recordStore from "@/store/recordStore";
 
@@ -29,16 +29,24 @@ type RecordItem = {
 };
 @Component({
   components: { Tags, FormItem, Types, NumberPad },
+  computed: {
+    recordList() {
+      return this.$store.state.count;
+    },
+  },
 })
 export default class Account extends Vue {
   tags = tagList;
-  recordList = store.recordList;
+
   record: RecordItem = {
     tags: [],
     notes: "",
     type: "-",
     amount: 0,
   };
+  created() {
+    this.$store.commit("fetchRecords ");
+  }
   onUpdateNotes(value: string) {
     this.record.notes = value;
   }
@@ -47,7 +55,7 @@ export default class Account extends Vue {
     this.record.amount = value;
   }
   saveRecord() {
-    recordStore.createRecord(this.record);
+    this.$store.commit("createRecord", this.record);
   }
 }
 </script>

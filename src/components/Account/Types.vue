@@ -22,10 +22,6 @@ export default class Types extends Vue {
     }
     this.$emit("update:value", type); //type只能是“-”或“+”，其中之一
   }
-  // @Watch("type")
-  // onValueChange(value: string) {
-  //   this.$emit("update:value", value);
-  // }
 }
 </script>
 

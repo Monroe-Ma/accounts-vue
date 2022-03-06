@@ -15,13 +15,18 @@
 </template>
 
 <script lang="ts">
-import store from "@/store/index2";
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 
-@Component
+@Component({
+  computed: {
+    tagList() {
+      return [];
+    },
+  },
+})
 export default class Tags extends Vue {
-  tagList = store.fetchTag();
+  // tagList = store.fetchTag();
   selectTags: string[] = [];
 
   toggle(tag: string) {
@@ -39,7 +44,7 @@ export default class Tags extends Vue {
     if (!name) {
       return window.alert("标签不能为空");
     }
-    store.createTag(name);
+    // store.createTag(name);
   }
 }
 </script>

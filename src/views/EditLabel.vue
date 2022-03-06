@@ -19,13 +19,14 @@ import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import Button from "@/components/Button.vue";
 import FormItem from "@/components/Account/FormItem.vue";
-import store from "@/store/index2";
+
 import tagStore from "@/store/tagStore";
 
 @Component({
   components: { Button, FormItem },
 })
 export default class EditLabel extends Vue {
+  //tudo
   tag?: tag = undefined;
   created() {
     this.tag = tagStore.findTag(this.$route.params.id);
@@ -36,11 +37,13 @@ export default class EditLabel extends Vue {
 
   updateTag(newName: string) {
     if (this.tag) {
-      tagStore.updateTag(this.tag.id, newName);
+      // TUDO
+      // tagStore.updateTag(this.tag.id, newName);
     }
   }
   remove(id: string) {
     if (this.tag) {
+      // TUDO
       if (tagStore.removeTag(this.tag.id)) {
         this.$router.back();
       } else {
