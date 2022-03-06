@@ -18,7 +18,6 @@ import { Component, Watch } from "vue-property-decorator";
 import recordListModel from "../models/recordListModel";
 import modelTags from "../models/modelTags";
 
-const recordList = recordListModel.fetch();
 const tagList = modelTags.fetch();
 type RecordItem = {
   tags: string[];
@@ -32,7 +31,7 @@ type RecordItem = {
 })
 export default class Account extends Vue {
   tags = tagList;
-  recordList: RecordItem[] = recordList;
+  recordList = window.recordList;
   record: RecordItem = {
     tags: [],
     notes: "",
@@ -50,11 +49,7 @@ export default class Account extends Vue {
     this.record.amount = value;
   }
   saveRecord() {
-    recordListModel.create(this.record);
-  }
-  @Watch("recordList")
-  onRecordChange() {
-    recordListModel.save();
+    window.createRecord(this.record);
   }
 }
 </script>
