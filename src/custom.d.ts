@@ -18,5 +18,6 @@ type tagListName = {
   remove:(id: string)=>boolean
 }
 interface Window {
-  tagList:tag[]
- }
+  tagList: tag[];
+  createTag: (name: string) => void
+}

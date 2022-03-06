@@ -15,7 +15,7 @@ const modelTags :tagListName = {
     }
     const id =idCreate().toString()
     this.data.push({ id, name: name })
-    console.log("create",this.data);
+  
     
     this.save()
     return "success"
