@@ -40,13 +40,11 @@ removeTag (id: string){
 
 updateTag (id:string,name:string) { 
      const idList = this.tagList.map(t => t.id)
-
     if (idList.indexOf(id)>=0) { 
         const tag = this.tagList.filter(t => id === t.id)[0]
         tag.name = name
       this.saveTag()
         return "success"
-      
     }  
      return "no found"
 },

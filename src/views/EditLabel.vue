@@ -6,7 +6,7 @@
       <span class="rightIcon"></span>
     </div>
     <div class="form-wrapper">
-      <FormItem fileName="标签名" :value="tag.name" @update:value="updateTag" />
+      <FormItem fileName="标签名" :value="currentTag.name" @update:value="updateTag" />
     </div>
     <div class="button-wrapper">
       <Button @click="remove">删除标签</Button>
@@ -20,37 +20,31 @@ import { Component } from "vue-property-decorator";
 import Button from "@/components/Button.vue";
 import FormItem from "@/components/Account/FormItem.vue";
 
-import tagStore from "@/store/tagStore";
-
 @Component({
   components: { Button, FormItem },
 })
 export default class EditLabel extends Vue {
-  get tag() {
-    return this.$store.state.currenTag;
+  get currentTag() {
+    return this.$store.state.currentTag;
   }
   created() {
     const id = this.$route.params.id;
+    this.$store.commit("fetchTag");
     this.$store.commit("setCurrentTag", id);
-    if (!this.tag) {
+    if (!this.currentTag) {
       this.$router.replace("./404");
     }
   }
 
-  updateTag(newName: string) {
-    if (this.tag) {
-      // TUDO
-      // tagStore.updateTag(this.tag.id, newName);
+  update(name: string) {
+    console.log(name);
+    if (this.currentTag) {
+      this.$store.commit("updateTag", { id: this.currentTag.id, name });
     }
   }
-  remove(id: string) {
-    if (this.tag) {
-      // TUDO
-      if (tagStore.removeTag(this.tag.id)) {
-        this.$router.back();
-      } else {
-        window.alert("删除失败");
-      }
+  remove() {
+    if (this.currentTag) {
+      this.$store.commit("removeTag", this.currentTag.id);
     }
   }
   goBack() {
@@ -61,6 +55,7 @@ export default class EditLabel extends Vue {
 
 <style lang="scss" scoped>
 @import "~@/assets/helper.scss";
+
 .navBar {
   text-align: center;
   font-size: 16px;
