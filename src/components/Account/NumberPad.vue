@@ -22,10 +22,16 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Component } from "vue-property-decorator";
+import { Component, Prop } from "vue-property-decorator";
 @Component
 export default class NumberPad extends Vue {
+  @Prop(Number) readonly value!: number;
+  // mounted() {
+  //   console.log(this.value);
+  // }
   output = "0";
+  // output = this.value.toString();
+
   inputContent(event: MouseEvent) {
     const button = event.target as HTMLButtonElement;
     const buttonInput = button.textContent!;
@@ -61,8 +67,9 @@ export default class NumberPad extends Vue {
     return;
   }
   ok() {
-    this.$emit("update:value", this.output);
-    this.$emit("submit");
+    const number = parseInt(this.output);
+    this.$emit("update:value", number);
+    this.$emit("submit", number);
   }
 }
 </script>
@@ -127,6 +134,3 @@ export default class NumberPad extends Vue {
 }
 </style>
 
-function value(arg0: string, value: any) {
-  throw new Error("Function not implemented.");
-}
