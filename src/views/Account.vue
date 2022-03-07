@@ -1,22 +1,26 @@
 <template>
   <Layout class-prefix="layout">
     {{recordList}}
-    <Tags @update:value="onUpdateTags" />
+    <!-- <Tags @update:value="onUpdateTags" /> -->
+    <Tags />
+
     <FormItem fileName="备注" placeholder="在这里输入备注" @update:value="onUpdateNotes" />
-    <Types :value.sync="record.type" />
+
+    <Tabs :data-source="recordTypeList" :value.sync="record.type" />
     <NumberPad @update:value="onUpdateAmount" @submit="saveRecord" />
   </Layout>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import Types from "@/components/Account/Types.vue";
+
 import Tags from "@/components/Account/Tags.vue";
 import FormItem from "@/components/Account/FormItem.vue";
 import NumberPad from "@/components/Account/NumberPad.vue";
 import { Component } from "vue-property-decorator";
-
 import tagStore from "@/store/tagStore";
+import recordTypeList from "@/constants/recordTypeList";
+import Tabs from "../components/Tabs.vue";
 
 const tagList = tagStore.fetchTag();
 type RecordItem = {
@@ -27,9 +31,10 @@ type RecordItem = {
   createAt?: Date;
 };
 @Component({
-  components: { Tags, FormItem, Types, NumberPad },
+  components: { Tags, FormItem, NumberPad, Tabs },
 })
 export default class Account extends Vue {
+  recordTypeList = recordTypeList;
   tags = tagList;
   get recordList() {
     return this.$store.state.count;
@@ -41,7 +46,7 @@ export default class Account extends Vue {
     amount: 0,
   };
   created() {
-    this.$store.commit("fetchRecords ");
+    this.$store.commit("fetchRecords");
   }
   onUpdateNotes(value: string) {
     this.record.notes = value;
