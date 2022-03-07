@@ -3,35 +3,70 @@
   <Layout>
     <Tabs classPrefix="type" :data-source="recordTypeList" :value.sync="type" />
     <Tabs classPrefix="interval" :data-source="intervalList" :value.sync="interval" />
-    {{this.recordList}}
+    <ul>
+      <li v-for=" (group,index) in result " :key="index">
+        <!-- {{ group}} -->
+        <h4>{{group.title}}</h4>
+        <ol>
+          <li
+            v-for=" item in group.items"
+            :key="item.createAt"
+          >{{tagString(item.tags)}}{{item.createAt}}{{item.type}}{{item.amount}}</li>
+        </ol>
+      </li>
+    </ul>
   </Layout>
 </template>
 
-<script>
-import Vue from 'vue';
-import Tabs from '@/components/Tabs.vue';
-import { Component } from 'vue-property-decorator';
-import intervalList from "@/constants/intervalList"
-import recordTypeList from "@/constants/recordTypeList"
+<script lang="ts">
+import Vue from "vue";
+import Tabs from "@/components/Tabs.vue";
+import { Component } from "vue-property-decorator";
+import intervalList from "@/constants/intervalList";
+import recordTypeList from "@/constants/recordTypeList";
+
 @Component({
   components: {
-    Tabs
-  }
+    Tabs,
+  },
 })
 export default class Book extends Vue {
-  get recordList () {
-    return this.$store.state.recordList
+  tagString(tags: tag[]) {
+    if (tags.length === 0) {
+      return "无";
+    } else {
+      return tags.map((item) => item.name).join(",");
+    }
   }
-  get result () {
-    return this.recordList
+  mounted() {
+    this.$store.commit("fetchRecords");
+  }
+  get recordList() {
+    return (this.$store.state as RootState).recordList;
+  }
+  get result() {
+    const { recordList } = this;
+    console.log("recordList", recordList);
+    const hashTable: { [K: string]: { title: string; items: RecordItem[] } } =
+      {};
+    for (let i = 0; i < recordList.length; i++) {
+      const [date, time] = recordList[i].createAt!.split("T");
+      // console.log("date", date);
+
+      hashTable[date] = hashTable[date] || { title: date, items: [] };
+      // console.log("hashTable[date]", hashTable[date]);
+
+      hashTable[date].items.push(recordList[i]);
+    }
+    console.log("hashTable", hashTable);
+
+    return hashTable;
   }
 
-
-
-  type = "-"
-  interval = "day"
-  intervalList = intervalList
-  recordTypeList = recordTypeList
+  type = "-";
+  interval = "day";
+  intervalList = intervalList;
+  recordTypeList = recordTypeList;
 }
 </script>
 

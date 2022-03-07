@@ -3,7 +3,7 @@ type RecordItem = {
   notes: string;
   type: string;
   amount: number;
-  createAt?: Date;
+  createAt?: string;
 };
 type tag = {
   id: string
@@ -28,4 +28,9 @@ interface Window {
   createRecord:(record:RecordItem)=>void
   }
   
+}
+type RootState = {
+  recordList: RecordItem[],
+  tagList: tag[],
+  currentTag?: tag
 }

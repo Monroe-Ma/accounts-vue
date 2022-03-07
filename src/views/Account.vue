@@ -25,7 +25,7 @@ type RecordItem = {
   notes: string;
   type: string;
   amount: number;
-  createAt?: Date;
+  createAt?: string;
 };
 @Component({
   components: { Tags, FormItem, NumberPad, Tabs },
@@ -48,6 +48,7 @@ export default class Account extends Vue {
   }
   onUpdateNotes(value: string) {
     this.record.notes = value;
+    console.log("this.record.notes");
   }
 
   onUpdateAmount(value: number) {
