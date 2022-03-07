@@ -1,11 +1,8 @@
 <template>
   <Layout class-prefix="layout">
     {{recordList}}
-    <!-- <Tags @update:value="onUpdateTags" /> -->
-    <Tags />
-
+    <Tags @update:value="record.tags = $event" />
     <FormItem fileName="备注" placeholder="在这里输入备注" @update:value="onUpdateNotes" />
-
     <Tabs :data-source="recordTypeList" :value.sync="record.type" />
     <NumberPad @update:value="onUpdateAmount" @submit="saveRecord" />
   </Layout>
@@ -39,6 +36,7 @@ export default class Account extends Vue {
   get recordList() {
     return this.$store.state.count;
   }
+
   record: RecordItem = {
     tags: [],
     notes: "",
