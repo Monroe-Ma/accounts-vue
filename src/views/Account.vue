@@ -1,7 +1,8 @@
 <template>
   <Layout class-prefix="layout">
     <Tags @update:value="record.tags = $event" />
-    <FormItem fileName="备注" placeholder="在这里输入备注" @update:value="onUpdateNotes" />
+    <FormItem fileName="备注" placeholder="在这里输入备注" :value.sync="record.notes" />
+    <!-- @update:value="onUpdateNotes" -->
     <Tabs :data-source="recordTypeList" :value.sync="record.type" />
     <NumberPad @update:value="onUpdateAmount" @submit="saveRecord" />
   </Layout>
