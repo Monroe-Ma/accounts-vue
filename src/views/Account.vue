@@ -1,10 +1,9 @@
 <template>
   <Layout class-prefix="layout">
-    <Tags @update:value="record.tags = $event" />
+    <Tags @update:value="record.tags = $event" :value="record.tags" />
     <FormItem fileName="备注" placeholder="在这里输入备注" :value.sync="record.notes" />
-    <!-- @update:value="onUpdateNotes" -->
     <Tabs :data-source="recordTypeList" :value.sync="record.type" />
-    <NumberPad @update:value="onUpdateAmount" @submit="saveRecord" />
+    <NumberPad @update:value="onUpdateAmount" @submit="saveRecord" :value="record.amount" />
   </Layout>
 </template>
 
@@ -58,6 +57,8 @@ export default class Account extends Vue {
     if (this.$store.state.createRecordError === null) {
       window.alert("已保存");
       this.record.notes = "";
+      // this.record.amount = 0;
+      // console.log(this.record.amount);
     }
   }
 }
