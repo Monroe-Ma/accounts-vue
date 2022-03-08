@@ -7,6 +7,8 @@ Vue.use(Vuex)
 
 const store= new Vuex.Store({
   state: {
+    createRecordError: null,
+    createTagError: null,
     recordList: [] as RecordItem[],
     tagList: [] as tag[],
     currentTag:undefined
@@ -24,14 +26,21 @@ const store= new Vuex.Store({
     state.recordList.push(record2);
      record2.createAt = new Date().toISOString();
     store.commit('saveRecords')
-      
     },
     saveRecords(state) { 
        return window.localStorage.setItem("recordList", JSON.stringify(state.recordList));
     },
      
     fetchTag(state) {
-   return   state.tagList = JSON.parse(window.localStorage.getItem("tagList") || "[]") 
+           
+     state.tagList = JSON.parse(window.localStorage.getItem("tagList") || "[]") 
+      if (!state.tagList || state.tagList.length === 0) {
+        store.commit('createTag', "衣")
+        store.commit('createTag', "食")
+        store.commit('createTag', "住")
+        store.commit('createTag', "行")
+      }
+    
     
     },
    createTag(state,name: string){
@@ -47,7 +56,8 @@ const store= new Vuex.Store({
     return "success"
     },
     saveTag(state) {
-    window.localStorage.setItem("tagList", JSON.stringify(state.tagList));
+      window.localStorage.setItem("tagList", JSON.stringify(state.tagList));
+      
     },
     updateTag(state, payload: { id: string, name: string }) {
       const {id, name} = payload;

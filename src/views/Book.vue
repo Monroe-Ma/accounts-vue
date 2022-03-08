@@ -15,7 +15,7 @@
               <span>{{tagString(item.tags)}}</span>
 
               <span>
-                <span class="notes">{{dateFormat(item.createAt)}}</span>
+                <span class="notes">{{timeFormat(item.createAt)}}</span>
                 <span class="notes">{{item.notes}}</span>
               </span>
             </aside>
@@ -42,6 +42,9 @@ import clone from "@/lib/clone";
   },
 })
 export default class Book extends Vue {
+  timeFormat(day: string) {
+    return dayjs(day).format("HH:mm:ss");
+  }
   dateFormat(day: string) {
     return dayjs(day).format("MM-DD");
   }

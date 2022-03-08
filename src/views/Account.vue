@@ -1,6 +1,5 @@
 <template>
   <Layout class-prefix="layout">
-    {{recordList}}
     <Tags @update:value="record.tags = $event" />
     <FormItem fileName="备注" placeholder="在这里输入备注" @update:value="onUpdateNotes" />
     <Tabs :data-source="recordTypeList" :value.sync="record.type" />
@@ -48,7 +47,6 @@ export default class Account extends Vue {
   }
   onUpdateNotes(value: string) {
     this.record.notes = value;
-    console.log("this.record.notes");
   }
 
   onUpdateAmount(value: number) {
@@ -56,6 +54,10 @@ export default class Account extends Vue {
   }
   saveRecord() {
     this.$store.commit("createRecord", this.record);
+    if (this.$store.state.createRecordError === null) {
+      window.alert("已保存");
+      this.record.notes = "";
+    }
   }
 }
 </script>

@@ -1,10 +1,19 @@
+
 type RecordItem = {
   tags: string[];
   notes: string;
   type: string;
   amount: number;
   createAt?: string;
+  createRecordError:Error;
+  createTagError:Error;
 };
+// const defaultDate = {
+//   amount: 0,
+//   notes: "",
+//   tags: [],
+//   type: "-",
+// }
 type tag = {
   id: string
   name:string
