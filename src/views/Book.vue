@@ -1,30 +1,32 @@
 
 <template>
   <Layout>
-    <Tabs classPrefix="type" :data-source="recordTypeList" :value.sync="type" />
-    <Tabs classPrefix="interval" :data-source="intervalList" :value.sync="interval" />
-    <ul>
-      <li v-for=" (group,index) in groupList " :key="index">
-        <h4 class="title">
-          {{conversionTime(group.title)}}
-          <span>{{group.total}}</span>
-        </h4>
-        <ol>
-          <li class="record" v-for=" item in group.item" :key="item.createAt">
-            <aside>
-              <span>{{tagString(item.tags)}}</span>
-
-              <span>
-                <span class="notes">{{timeFormat(item.createAt)}}</span>
-                <span class="notes">{{item.notes}}</span>
-              </span>
-            </aside>
-
-            <span>{{item.type}}{{item.amount}}</span>
-          </li>
-        </ol>
-      </li>
-    </ul>
+    <span class="wrapper">
+      <div>
+        <Tabs classPrefix="type" :data-source="recordTypeList" :value.sync="type" />
+        <Tabs classPrefix="interval" :data-source="intervalList" :value.sync="interval" />
+      </div>
+      <ul>
+        <li v-for=" (group,index) in groupList " :key="index">
+          <h4 class="title">
+            {{conversionTime(group.title)}}
+            <span>{{group.total}}</span>
+          </h4>
+          <ol>
+            <li class="record" v-for=" item in group.item" :key="item.createAt">
+              <aside>
+                <span>{{tagString(item.tags)}}</span>
+                <span>
+                  <span class="notes">{{timeFormat(item.createAt)}}</span>
+                  <span class="notes">{{item.notes}}</span>
+                </span>
+              </aside>
+              <span>{{item.type}}{{item.amount}}</span>
+            </li>
+          </ol>
+        </li>
+      </ul>
+    </span>
   </Layout>
 </template>
 
@@ -142,6 +144,15 @@ export default class Book extends Vue {
   display: flex;
   justify-content: space-between;
   align-content: center;
+}
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 93vh;
+  > ul {
+    flex-grow: 1;
+    overflow: auto;
+  }
 }
 .title {
   @extend %item;
