@@ -4,7 +4,6 @@
     <span class="wrapper">
       <div>
         <Tabs classPrefix="type" :data-source="recordTypeList" :value.sync="type" />
-        <Tabs classPrefix="interval" :data-source="intervalList" :value.sync="interval" />
       </div>
       <ul>
         <li v-for=" (group,index) in groupList " :key="index">
@@ -13,7 +12,7 @@
             <span>{{group.total}}</span>
           </h4>
           <ol>
-            <li class="record" v-for=" item in group.item" :key="item.createAt">
+            <li class="record" v-for=" item in group.item" :key="item.id">
               <aside>
                 <span>{{tagString(item.tags)}}</span>
                 <span>
@@ -34,7 +33,6 @@
 import Vue from "vue";
 import Tabs from "@/components/Tabs.vue";
 import { Component } from "vue-property-decorator";
-import intervalList from "@/constants/intervalList";
 import recordTypeList from "@/constants/recordTypeList";
 import dayjs from "dayjs";
 import clone from "@/lib/clone";
@@ -44,6 +42,9 @@ import clone from "@/lib/clone";
   },
 })
 export default class Book extends Vue {
+  type = "-";
+  recordTypeList = recordTypeList;
+
   timeFormat(day: string) {
     return dayjs(day).format("HH:mm:ss");
   }
@@ -113,13 +114,14 @@ export default class Book extends Vue {
           return sum + item.amount;
         }, 0))
     );
+    const y = result.map((t) => {
+      const inCome = t.item.filter((c) => c.type === "+");
+      const pay = t.item.filter((c) => c.type === "-");
+      console.log("inCome", inCome);
+      console.log("pay", pay);
+    });
     return result;
   }
-
-  type = "-";
-  interval = "day";
-  intervalList = intervalList;
-  recordTypeList = recordTypeList;
 }
 </script>
 
