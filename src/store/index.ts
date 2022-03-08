@@ -10,7 +10,7 @@ const store= new Vuex.Store({
     createRecordError: null,
     createTagError: null,
     recordList: [] as RecordItem[],
-    tagList: [] as tag[],
+    tagList: [] as Tag[],
     currentTag:undefined
   } as RootState,
   mutations: {
@@ -35,22 +35,24 @@ const store= new Vuex.Store({
            
      state.tagList = JSON.parse(window.localStorage.getItem("tagList") || "[]") 
       if (!state.tagList || state.tagList.length === 0) {
-        store.commit('createTag', "衣")
-        store.commit('createTag', "食")
-        store.commit('createTag', "住")
-        store.commit('createTag', "行")
+        store.commit('createTag',  { name:"餐饮", iconName:"eat"})
+        store.commit('createTag', { name:"购物", iconName:"shopping"})
+        store.commit('createTag',  { name:"交通", iconName:"traffic"})
+        store.commit('createTag', { name: "娱乐", iconName: "entertainment" })
+          store.commit('createTag',  { name:"日用", iconName:"daily"})
       }
     
     
     },
-   createTag(state,name: string){
+    createTag(state, payload: { name: string, iconName: string }) {
+      const {iconName, name} = payload;
     const names= state.tagList.map(item=>item.name)
     if (names.indexOf(name) >= 0) {
        window.alert("标签重复了");
       return  "duplicated"
     }
     const id =idCreate().toString()
-    state.tagList.push({ id, name: name })
+    state.tagList.push({ id, name: name ,iconName:iconName})
     store.commit("saveTag")
     window.alert("添加标签成功");
     return "success"

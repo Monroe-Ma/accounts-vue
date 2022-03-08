@@ -8,27 +8,23 @@ type RecordItem = {
   createRecordError:Error;
   createTagError:Error;
 };
-// const defaultDate = {
-//   amount: 0,
-//   notes: "",
-//   tags: [],
-//   type: "-",
-// }
-type tag = {
+
+type Tag = {
   id: string
+  iconName?:string
   name:string
 }
 type tagListName = {
-  data:tag[]
-  fetch: () => tag[]
-  create: (name: string) => "success" | "duplicated"
+  data:Tag[]
+  fetch: () => Tag[]
+  create: (name: string,iconName:string) => "success" | "duplicated"
   save: () => void
   update: (id: string, name: string) => "success" | "no found" 
   remove:(id: string)=>boolean
 }
 interface Window {
   store:{ 
-  tagList: tag[];
+  tagList: Tag[];
   createTag: (name: string) => void
   removeTag: (id: string) => boolean
   updateTag: tagListName["update"]
@@ -40,6 +36,6 @@ interface Window {
 }
 type RootState = {
   recordList: RecordItem[],
-  tagList: tag[],
-  currentTag?: tag
+  tagList: Tag[],
+  currentTag?: Tag
 }

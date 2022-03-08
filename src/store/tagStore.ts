@@ -2,7 +2,7 @@
 import idCreate from "@/lib/idCreate"
 const localStorageKeyName = "tagList"
 const tagStore= {
-  tagList: [] as tag[],
+  tagList: [] as Tag[],
   fetchTag() {
     this.tagList = JSON.parse(window.localStorage.getItem(localStorageKeyName) || "[]") 
     return this.tagList 

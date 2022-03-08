@@ -9,7 +9,13 @@
         :key="tag.id "
         :class="{selected:selectTags.indexOf(tag)>=0} "
         @click="toggle(tag)"
-      >{{tag.name}}</li>
+      >
+        <span class="iconBg">
+          <Icon :name=" tag.iconName " />
+          <!-- <Icon name="eat" /> -->
+        </span>
+        <span>{{tag.name}}</span>
+      </li>
     </ul>
   </div>
 </template>
@@ -18,7 +24,9 @@
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 
-@Component
+@Component({
+  components: {},
+})
 export default class Tags extends Vue {
   get tagList() {
     return this.$store.state.tagList;
@@ -41,10 +49,11 @@ export default class Tags extends Vue {
   }
   create() {
     const name = window.prompt("请输入标签");
+
     if (!name) {
       return window.alert("标签不能为空");
     }
-    this.$store.commit("createTag", name);
+    this.$store.commit("createTag", { name: name, iconName: "other" });
   }
 }
 </script>
@@ -62,18 +71,37 @@ export default class Tags extends Vue {
     display: flex;
     flex-wrap: wrap;
     > li {
-      background: #d9d9d9;
       $h: 24px;
       height: $h;
       line-height: $h;
-      /* border-radius: $h/2; */
       border-radius: 100px;
       padding: 0 16px;
-      margin-right: 12px;
       margin-top: 4px;
+      > .iconBg {
+        display: block;
+        width: 40px;
+        height: 40px;
+        background: #eee;
+        border-radius: 20px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .icon {
+          width: 32px;
+          height: 32px;
+          fill: #ddd;
+          line-height: 40px;
+        }
+      }
       &.selected {
-        background-color: red;
-        color: #fff;
+        .iconBg {
+          background-color: #fff2e9;
+          .icon {
+            fill: #ff9400;
+          }
+        }
       }
     }
   }

@@ -63,7 +63,7 @@ export default class Book extends Vue {
     }
   }
 
-  tagString(tags: tag[]) {
+  tagString(tags: Tag[]) {
     if (tags.length === 0) {
       return "无";
     } else {

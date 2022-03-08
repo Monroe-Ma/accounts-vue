@@ -41,6 +41,9 @@ nav {
   }
   > .item.selected {
     color: #fe9c3c;
+    .icon {
+      fill: #fe9c3c;
+    }
   }
 }
 </style>
