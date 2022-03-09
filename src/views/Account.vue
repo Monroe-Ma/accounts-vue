@@ -4,7 +4,7 @@
     <Tags @update:value="record.tags = $event" :value="record.tags" />
     <div>
       <button>
-        {{ s()}}
+        {{ timeDay()}}
         <Icon name="xiajiantou" />
       </button>
       <Tabs class="x" classPrefix="cagney" :data-source="recordTypeList" :value.sync="record.type" />
@@ -50,7 +50,7 @@ export default class Account extends Vue {
     type: "-",
     amount: 0,
   };
-  s() {
+  timeDay() {
     return dayjs(new Date()).format("YYYY-MM-DD");
   }
   created() {

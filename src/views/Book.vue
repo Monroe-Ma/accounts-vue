@@ -104,15 +104,17 @@ export default class Book extends Vue {
       item: RecordItem[];
       total?: number;
     }[];
+    if (classesList.length === 0) {
+      return [] as Result;
+    }
+
     const result: Result = [
       {
         title: dayjs(classesList[0].createAt).format("YYYY-MM-DD"),
         item: [classesList[0]],
       },
     ];
-    if (classesList.length === 0) {
-      return [] as Result;
-    }
+
     for (let i = 0; i < classesList.length; i++) {
       const current = classesList[i];
       const last = result[result.length - 1];
