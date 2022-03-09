@@ -119,7 +119,7 @@ export default class Book extends Vue {
   get groupList() {
     const newList = clone(this.recordList);
     const classesList = newList.filter((t) => {
-      return (t.type = this.type);
+      return t.type === this.type;
     });
     classesList.sort(
       (a, b) => dayjs(b.createAt).valueOf() - dayjs(a.createAt).valueOf()
@@ -164,6 +164,7 @@ export default class Book extends Vue {
     //   console.log("z", z);
 
     // }
+    console.log(classesList);
 
     return result;
   }
