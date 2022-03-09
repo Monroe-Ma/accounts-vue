@@ -58,7 +58,7 @@
 import Vue from "vue";
 import Tabs from "@/components/Tabs.vue";
 import { Component, Prop } from "vue-property-decorator";
-import recordTypeList from "@/constants/recordTypeList";
+import { recordTypeList } from "@/constants/recordTypeList";
 import dayjs from "dayjs";
 import clone from "@/lib/clone";
 import Icon from "@/components/Icon.vue";
@@ -117,13 +117,17 @@ export default class Book extends Vue {
   }
 
   get groupList() {
+    // console.log("1111111111", this.recordList);
     const newList = clone(this.recordList);
+    // console.log("1111111111", newList);
     const classesList = newList.filter((t) => {
-      return t.type === this.type;
+      return this.type === "o" ? true : t.type === this.type;
     });
+    // console.log("1111111111", classesList);
     classesList.sort(
       (a, b) => dayjs(b.createAt).valueOf() - dayjs(a.createAt).valueOf()
     );
+
     type Result = {
       title: string;
       item: RecordItem[];
@@ -136,9 +140,10 @@ export default class Book extends Vue {
     const result: Result = [
       {
         title: dayjs(classesList[0].createAt).format("YYYY-MM-DD"),
-        item: [classesList[0]],
+        item: [],
       },
     ];
+    console.log("1", clone(result));
 
     for (let i = 0; i < classesList.length; i++) {
       const current = classesList[i];
@@ -164,7 +169,7 @@ export default class Book extends Vue {
     //   console.log("z", z);
 
     // }
-    console.log(classesList);
+    console.log("2", result);
 
     return result;
   }

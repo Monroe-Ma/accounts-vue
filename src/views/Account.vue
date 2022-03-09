@@ -26,7 +26,7 @@ import FormItem from "@/components/Account/FormItem.vue";
 import NumberPad from "@/components/Account/NumberPad.vue";
 import { Component } from "vue-property-decorator";
 import tagStore from "@/store/tagStore";
-import recordTypeList from "@/constants/recordTypeList";
+import { writeTypeList } from "@/constants/recordTypeList";
 import Tabs from "../components/Tabs.vue";
 import Output from "@/components/Account/Output.vue";
 import dayjs from "dayjs";
@@ -43,7 +43,7 @@ type RecordItem = {
   components: { Tags, FormItem, NumberPad, Tabs, Output },
 })
 export default class Account extends Vue {
-  recordTypeList = recordTypeList;
+  recordTypeList = writeTypeList;
   tags = tagList;
   get recordList() {
     return this.$store.state.count;
