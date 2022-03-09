@@ -1,9 +1,5 @@
 <template>
   <div class="numberPad">
-    <div class="output">
-      <span>￥</span>
-      {{output}}
-    </div>
     <div class="pad clearfix">
       <button @click="inputContent">1</button>
       <button @click="inputContent">2</button>
@@ -32,22 +28,22 @@ export default class NumberPad extends Vue {
 
   @Watch("output")
   onChangeValue(newVal: string, oldVal: string) {
-    // console.log(newVal);
     this.$emit("update:value", Number(newVal));
-    // todo...
   }
-
   output = this.value.toString();
 
-  zero = document.getElementById("zero");
-  buttonHeight(zero: HTMLElement) {
+  get buttonHeight() {
+    let elem: HTMLElement;
+    const zero = document.getElementById("zero");
+    let x: number = 0;
     if (zero) {
-      const x = this.zero?.offsetHeight ?? 50;
-      console.log(x);
-      return x * 2 + 4 + "px";
+      elem = zero;
+      x = elem.offsetHeight * 2 + 4;
     }
-  }
+    console.log(x);
 
+    return x;
+  }
   inputContent(event: MouseEvent) {
     const button = event.target as HTMLButtonElement;
     const buttonInput = button.textContent!;

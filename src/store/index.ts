@@ -19,11 +19,10 @@ const store= new Vuex.Store({
       { name: "交通", iconName: "traffic" },
       { name: "娱乐", iconName: "entertainment" },
       { name: "日用", iconName: "daily" },
-      { name: "运动", iconName: "daily" },
-      { name: "摄影", iconName: "daily" },
-       { name: "住", iconName: "daily" },
-       { name: "性", iconName: "daily" },
-       { name: "会", iconName: "daily" }
+      { name: "医疗", iconName: "medical" },
+      { name: "零食", iconName: "snacks" },
+      { name: "房贷", iconName: "home" },
+       { name: "文教", iconName: "education" },
     ]
   } as RootState,
   mutations: {
@@ -44,8 +43,7 @@ const store= new Vuex.Store({
        return window.localStorage.setItem("recordList", JSON.stringify(state.recordList));
     },
      
-    fetchTag(state) {
-           
+    fetchTag(state) {      
      state.tagList = JSON.parse(window.localStorage.getItem("tagList") || "[]") 
       if (!state.tagList || state.tagList.length === 0) {
         store.commit('InstalTags')

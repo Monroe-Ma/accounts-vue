@@ -1,8 +1,5 @@
 <template>
   <div class="tags">
-    <!-- <div>
-      <button @click="create">新增标签</button>
-    </div>-->
     <ul class="current">
       <li
         v-for="tag in tagList "
@@ -70,9 +67,7 @@ export default class Tags extends Vue {
   font-size: 14px;
   padding: 16px;
   flex-grow: 1;
-  display: flex;
   background: #fff;
-
   > .current {
     display: flex;
     flex-wrap: wrap;
@@ -95,7 +90,6 @@ export default class Tags extends Vue {
         display: flex;
         justify-content: center;
         align-items: center;
-
         .icon {
           width: 24px;
           height: 24px;

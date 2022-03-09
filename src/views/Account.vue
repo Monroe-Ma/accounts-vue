@@ -2,15 +2,20 @@
   <Layout class-prefix="layout">
     <Output @update:value="onUpdateAmount" :value="record.amount" />
     <Tags @update:value="record.tags = $event" :value="record.tags" />
-    <div>
+    <div class="classesItem">
       <button>
         {{ timeDay()}}
-        <Icon name="xiajiantou" />
+        <Icon name="arrowRight" />
       </button>
-      <Tabs class="x" classPrefix="cagney" :data-source="recordTypeList" :value.sync="record.type" />
+      <Tabs classPrefix="cagney" :data-source="recordTypeList" :value.sync="record.type" />
     </div>
     <FormItem class="note" fileName="备注" placeholder="在这里输入备注" :value.sync="record.notes" />
-    <NumberPad @update:value="onUpdateAmount" @submit="saveRecord" :value="record.amount" />
+    <NumberPad
+      class="x"
+      @update:value="onUpdateAmount"
+      @submit="saveRecord"
+      :value="record.amount"
+    />
   </Layout>
 </template>
 
@@ -75,22 +80,46 @@ export default class Account extends Vue {
 }
 </script>
 
-<style lang="scss">
-.layout-content {
+<style lang="scss" scoped>
+.classesItem {
   display: flex;
-  flex-direction: column-reverse;
-}
-.cagney-tabs-item {
+  justify-content: space-evenly;
   background: #fff;
-  width: 30% !important;
+  margin: 10px 0;
+  > button {
+    margin: 10px 0;
+    border: 1px solid #eee;
+    background: #fff;
+    padding: 0 10px;
+    border-radius: 6px;
+  }
+}
+::v-deep .cagney-tabs-item {
+  background: #fff;
   border-radius: 40px;
-  display: flex;
-  justify-content: flex-end;
+  padding: 0 20px;
+  margin: 10px 0;
+  height: 44px;
+  background: #eee;
+  margin-left: 10px;
+  font-size: 16px;
+  color: #333;
   &.selected {
     background: #ff9400;
     color: #fff;
     &::after {
       display: none;
+    }
+  }
+}
+::v-deep .note {
+  margin-bottom: 10px;
+  > label {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    > span {
+      display: block;
     }
   }
 }

@@ -1,15 +1,33 @@
 
 <template>
   <Layout>
-    <span class="wrapper">
-      <div>
-        <Tabs
-          classPrefix="type"
-          :data-source="recordTypeList"
-          :value="type"
-          @update:value="onUpdate"
-        />
+    <div class="topWrapper">
+      <div class="mouthData">
+        <button>
+          {{ timeDay()}}
+          <Icon name="arrowRight" />
+        </button>
+        <div class="dataList">
+          <div class="data">
+            <span class="titleMouth">本月支出</span>
+            <span class="account">0</span>
+          </div>
+          <div class="data">
+            <span class="titleMouth">本月收入</span>
+            <span class="account">0</span>
+          </div>
+        </div>
       </div>
+    </div>
+
+    <span class="wrapper">
+      <Tabs
+        classPrefix="type"
+        :data-source="recordTypeList"
+        :value="type"
+        @update:value="onUpdate"
+      />
+
       <ul>
         <li v-for=" (group,index) in groupList " :key="index">
           <h4 class="title">
@@ -37,7 +55,7 @@
 <script lang="ts">
 import Vue from "vue";
 import Tabs from "@/components/Tabs.vue";
-import { Component } from "vue-property-decorator";
+import { Component, Prop } from "vue-property-decorator";
 import recordTypeList from "@/constants/recordTypeList";
 import dayjs from "dayjs";
 import clone from "@/lib/clone";
@@ -50,7 +68,9 @@ import clone from "@/lib/clone";
 export default class Book extends Vue {
   type = "-";
   recordTypeList = recordTypeList;
-
+  timeDay() {
+    return dayjs(new Date()).format("YYYY-MM-DD");
+  }
   onUpdate(value: string) {
     this.type = value;
   }
@@ -139,20 +159,6 @@ export default class Book extends Vue {
 </script>
 
 <style lang="scss" scoped>
-::v-deep {
-  .type-tabs-item {
-    background: #c4c4c4;
-    &.selected {
-      background: white;
-      &::after {
-        display: none;
-      }
-    }
-  }
-  .interval-tabs-item {
-    height: 48px;
-  }
-}
 %item {
   padding: 8px 16px;
   line-height: 24px;
@@ -160,13 +166,67 @@ export default class Book extends Vue {
   justify-content: space-between;
   align-content: center;
 }
-.wrapper {
+.topWrapper {
+  background: #ff9400;
+  border-radius: 0 0 40px 40px;
+  padding-top: 30px;
+  .mouthData {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background: #fff;
+    margin: 0 10px;
+    border-radius: 10px;
+    padding: 20px;
+    > button {
+      border: none;
+      width: 140px;
+      margin: 10px 0;
+      background: #f6f6f6;
+      padding: 10px;
+      border-radius: 6px;
+      .icon {
+        margin-left: 6px;
+      }
+    }
+    .dataList {
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      width: 300px;
+      margin-top: 10px;
+      .data {
+        display: flex;
+        flex-direction: column;
+        .titleMouth {
+          color: #999;
+          font-size: 14px;
+        }
+        .account {
+          color: #333;
+          font-weight: 600;
+          font-size: 18px;
+        }
+      }
+    }
+  }
+}
+::v-deep .wrapper {
   display: flex;
   flex-direction: column;
   height: 93vh;
+  margin-top: 10px;
   > ul {
-    flex-grow: 1;
     overflow: auto;
+    .type-tabs-item {
+      background: #c4c4c4;
+      &.selected {
+        background: white;
+        &::after {
+          display: none;
+        }
+      }
+    }
   }
 }
 .title {

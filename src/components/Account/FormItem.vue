@@ -2,7 +2,7 @@
 <template>
   <div>
     <label class="notes">
-      <p class="name">{{this.fileName}}</p>
+      <span class="name">{{this.fileName}}</span>
       <input
         type="text"
         :value="value"
@@ -36,8 +36,6 @@ export default class FormItem extends Vue {
   padding-left: 16px;
   display: flex;
   align-items: center;
-  flex-direction: column;
-  align-items: flex-start;
   .name {
     padding-right: 16px;
     font-weight: 400;
@@ -47,6 +45,7 @@ export default class FormItem extends Vue {
     background: transparent;
     border: none;
     padding-right: 16px;
+    outline: none;
   }
 }
 </style>
