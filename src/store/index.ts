@@ -7,11 +7,24 @@ Vue.use(Vuex)
 
 const store= new Vuex.Store({
   state: {
+    groupList: [],
     createRecordError: null,
     createTagError: null,
     recordList: [] as RecordItem[],
     tagList: [] as Tag[],
-    currentTag:undefined
+    currentTag: undefined,
+    defaultTag: [
+      { name: "餐饮", iconName: "eat" },
+      { name: "购物", iconName: "shopping" },
+      { name: "交通", iconName: "traffic" },
+      { name: "娱乐", iconName: "entertainment" },
+      { name: "日用", iconName: "daily" },
+      { name: "运动", iconName: "daily" },
+      { name: "摄影", iconName: "daily" },
+       { name: "住", iconName: "daily" },
+       { name: "性", iconName: "daily" },
+       { name: "会", iconName: "daily" }
+    ]
   } as RootState,
   mutations: {
     setCurrentTag(state,id:string) {  
@@ -35,19 +48,19 @@ const store= new Vuex.Store({
            
      state.tagList = JSON.parse(window.localStorage.getItem("tagList") || "[]") 
       if (!state.tagList || state.tagList.length === 0) {
-        store.commit('createTag',  { name:"餐饮", iconName:"eat"})
-        store.commit('createTag', { name:"购物", iconName:"shopping"})
-        store.commit('createTag',  { name:"交通", iconName:"traffic"})
-        store.commit('createTag', { name: "娱乐", iconName: "entertainment" })
-          store.commit('createTag',  { name:"日用", iconName:"daily"})
+        store.commit('InstalTags')
       }
-    
-    
     },
+
+    InstalTags(state) {
+      window.localStorage.setItem("tagList", JSON.stringify(state.defaultTag));
+      state.tagList = state.tagList.concat(state.defaultTag);
+    },
+    
     createTag(state, payload: { name: string, iconName: string }) {
       const {iconName, name} = payload;
-    const names= state.tagList.map(item=>item.name)
-    if (names.indexOf(name) >= 0) {
+      const names= state.tagList.map(item=>item.name)
+      if (names.indexOf(name) >= 0) {
        window.alert("标签重复了");
       return  "duplicated"
     }
@@ -57,10 +70,12 @@ const store= new Vuex.Store({
     window.alert("添加标签成功");
     return "success"
     },
+
     saveTag(state) {
       window.localStorage.setItem("tagList", JSON.stringify(state.tagList));
       
     },
+
     updateTag(state, payload: { id: string, name: string }) {
       const {id, name} = payload;
       const idList = state.tagList.map(item => item.id);

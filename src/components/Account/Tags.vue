@@ -1,8 +1,8 @@
 <template>
   <div class="tags">
-    <div class="new">
+    <!-- <div>
       <button @click="create">新增标签</button>
-    </div>
+    </div>-->
     <ul class="current">
       <li
         v-for="tag in tagList "
@@ -12,9 +12,14 @@
       >
         <span class="iconBg">
           <Icon :name=" tag.iconName " />
-          <!-- <Icon name="eat" /> -->
         </span>
         <span>{{tag.name}}</span>
+      </li>
+      <li class="new" @click="create">
+        <span class="iconBg">
+          <Icon name="add" />
+        </span>
+        <span>新增标签</span>
       </li>
     </ul>
   </div>
@@ -66,17 +71,20 @@ export default class Tags extends Vue {
   padding: 16px;
   flex-grow: 1;
   display: flex;
-  flex-direction: column-reverse;
+  background: #fff;
+
   > .current {
     display: flex;
     flex-wrap: wrap;
     > li {
       $h: 24px;
-      height: $h;
       line-height: $h;
       border-radius: 100px;
       padding: 0 16px;
       margin-top: 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       > .iconBg {
         display: block;
         width: 40px;
@@ -89,8 +97,8 @@ export default class Tags extends Vue {
         align-items: center;
 
         .icon {
-          width: 32px;
-          height: 32px;
+          width: 24px;
+          height: 24px;
           fill: #ddd;
           line-height: 40px;
         }

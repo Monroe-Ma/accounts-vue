@@ -3,7 +3,12 @@
   <Layout>
     <span class="wrapper">
       <div>
-        <Tabs classPrefix="type" :data-source="recordTypeList" :value.sync="type" />
+        <Tabs
+          classPrefix="type"
+          :data-source="recordTypeList"
+          :value="type"
+          @update:value="onUpdate"
+        />
       </div>
       <ul>
         <li v-for=" (group,index) in groupList " :key="index">
@@ -36,6 +41,7 @@ import { Component } from "vue-property-decorator";
 import recordTypeList from "@/constants/recordTypeList";
 import dayjs from "dayjs";
 import clone from "@/lib/clone";
+
 @Component({
   components: {
     Tabs,
@@ -45,12 +51,18 @@ export default class Book extends Vue {
   type = "-";
   recordTypeList = recordTypeList;
 
+  onUpdate(value: string) {
+    this.type = value;
+  }
+
   timeFormat(day: string) {
     return dayjs(day).format("HH:mm:ss");
   }
+
   dateFormat(day: string) {
     return dayjs(day).format("MM-DD");
   }
+
   conversionTime(time: string) {
     const now = dayjs();
     const day = dayjs(time);
@@ -70,34 +82,39 @@ export default class Book extends Vue {
       return tags.map((item) => item.name).join(",");
     }
   }
+
   mounted() {
     this.$store.commit("fetchRecords");
   }
+
   get recordList() {
     return (this.$store.state as RootState).recordList;
   }
+
   get groupList() {
-    const { recordList } = this;
+    const newList = clone(this.recordList);
+    const classesList = newList.filter((t) => {
+      return (t.type = this.type);
+    });
+    classesList.sort(
+      (a, b) => dayjs(b.createAt).valueOf() - dayjs(a.createAt).valueOf()
+    );
     type Result = {
       title: string;
       item: RecordItem[];
       total?: number;
     }[];
-    const newList = clone(recordList).sort(
-      (a, b) => dayjs(b.createAt).valueOf() - dayjs(a.createAt).valueOf()
-    );
-    if (newList.length === 0) {
-      return [] as Result;
-    }
-
     const result: Result = [
       {
-        title: dayjs(newList[0].createAt).format("YYYY-MM-DD"),
-        item: [newList[0]],
+        title: dayjs(classesList[0].createAt).format("YYYY-MM-DD"),
+        item: [classesList[0]],
       },
     ];
-    for (let i = 0; i < newList.length; i++) {
-      const current = newList[i];
+    if (classesList.length === 0) {
+      return [] as Result;
+    }
+    for (let i = 0; i < classesList.length; i++) {
+      const current = classesList[i];
       const last = result[result.length - 1];
       if (dayjs(last.title).isSame(dayjs(current.createAt), "day")) {
         last.item.push(current);
@@ -114,12 +131,6 @@ export default class Book extends Vue {
           return sum + item.amount;
         }, 0))
     );
-    const y = result.map((t) => {
-      const inCome = t.item.filter((c) => c.type === "+");
-      const pay = t.item.filter((c) => c.type === "-");
-      console.log("inCome", inCome);
-      console.log("pay", pay);
-    });
     return result;
   }
 }

@@ -1,7 +1,10 @@
 <template>
   <div class="numberPad">
-    <div class="output">{{output}}</div>
-    <div class="buttons">
+    <div class="output">
+      <span>￥</span>
+      {{output}}
+    </div>
+    <div class="pad clearfix">
       <button @click="inputContent">1</button>
       <button @click="inputContent">2</button>
       <button @click="inputContent">3</button>
@@ -13,8 +16,8 @@
       <button @click="inputContent">7</button>
       <button @click="inputContent">8</button>
       <button @click="inputContent">9</button>
-      <button @click="ok" class="ok">OK</button>
-      <button @click="inputContent" class="zero">0</button>
+      <button @click="ok" id="save" :style="{height:buttonHeight}">OK</button>
+      <button @click="inputContent" id="zero">0</button>
       <button @click="inputContent">.</button>
     </div>
   </div>
@@ -22,11 +25,28 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Component, Prop } from "vue-property-decorator";
+import { Component, Prop, Watch } from "vue-property-decorator";
 @Component
 export default class NumberPad extends Vue {
   @Prop(Number) readonly value!: number;
+
+  @Watch("output")
+  onChangeValue(newVal: string, oldVal: string) {
+    // console.log(newVal);
+    this.$emit("update:value", Number(newVal));
+    // todo...
+  }
+
   output = this.value.toString();
+
+  zero = document.getElementById("zero");
+  buttonHeight(zero: HTMLElement) {
+    if (zero) {
+      const x = this.zero?.offsetHeight ?? 50;
+      console.log(x);
+      return x * 2 + 4 + "px";
+    }
+  }
 
   inputContent(event: MouseEvent) {
     const button = event.target as HTMLButtonElement;
@@ -46,8 +66,6 @@ export default class NumberPad extends Vue {
       return;
     }
     this.output += buttonInput;
-
-    // console.log(this.output);
     return;
   }
   remove() {
@@ -73,7 +91,34 @@ export default class NumberPad extends Vue {
 
 <style lang="scss" scoped>
 @import "~@/assets/helper.scss";
-.numberPad {
+
+.pad {
+  text-align: center;
+  > button {
+    background: #fff;
+    border: none;
+    width: 24%;
+    padding: 18px 0;
+    text-align: center;
+    float: left;
+    margin: 2px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 18px;
+    color: #333;
+  }
+  #zero {
+    width: 49%;
+  }
+  #save {
+    height: 110px;
+    color: #fff;
+    background: #ff9400;
+    float: right;
+  }
+}
+
+/* .numberPad {
   .output {
     @extend %clearFix;
     @extend %innerShadow;
@@ -128,6 +173,7 @@ export default class NumberPad extends Vue {
       }
     }
   }
-}
+} */
 </style>
+
 
