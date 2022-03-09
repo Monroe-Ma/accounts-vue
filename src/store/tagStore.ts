@@ -14,7 +14,7 @@ const tagStore= {
       return  "duplicated"
     }
     const id =idCreate().toString()
-    this.tagList.push({ id, name: name })
+    // this.tagList.push({ id, name: name })
     this.saveTag()
     window.alert("添加标签成功");
     return "success"

@@ -27,7 +27,6 @@
         :value="type"
         @update:value="onUpdate"
       />
-
       <ul>
         <li v-for=" (group,index) in groupList " :key="index">
           <h4 class="title">
@@ -36,6 +35,9 @@
           </h4>
           <ol>
             <li class="record" v-for=" item in group.item" :key="item.id">
+              <!-- <span>
+                <Icon :name="item.tags" />
+              </span>-->
               <aside>
                 <span>{{tagString(item.tags)}}</span>
                 <span>
@@ -59,10 +61,12 @@ import { Component, Prop } from "vue-property-decorator";
 import recordTypeList from "@/constants/recordTypeList";
 import dayjs from "dayjs";
 import clone from "@/lib/clone";
+import Icon from "@/components/Icon.vue";
 
 @Component({
   components: {
     Tabs,
+    Icon,
   },
 })
 export default class Book extends Vue {
@@ -73,6 +77,7 @@ export default class Book extends Vue {
   }
   onUpdate(value: string) {
     this.type = value;
+    console.log("type", this.type);
   }
 
   timeFormat(day: string) {
@@ -153,6 +158,13 @@ export default class Book extends Vue {
           return sum + item.amount;
         }, 0))
     );
+
+    // for (let i = 0; i <= newList.length; i++) {
+    //   const z = newList[i].tags;
+    //   console.log("z", z);
+
+    // }
+
     return result;
   }
 }
@@ -216,12 +228,21 @@ export default class Book extends Vue {
   flex-direction: column;
   height: 93vh;
   margin-top: 10px;
-  > ul {
+  > .tabs {
     overflow: auto;
+    width: 300px;
+    margin: 0 auto;
+    margin-bottom: 20px;
     .type-tabs-item {
-      background: #c4c4c4;
+      border-radius: 8px;
+      font-size: 18px;
+      color: #999;
+      background: #eee;
+      height: 54px;
       &.selected {
-        background: white;
+        border-radius: 8px;
+        background: #ff9400;
+        color: #fff;
         &::after {
           display: none;
         }

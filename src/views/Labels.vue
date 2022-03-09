@@ -32,7 +32,7 @@ export default class Labels extends Vue {
     if (!name) {
       return window.alert("标签名不能为空");
     }
-    this.$store.commit("createTag", name);
+    this.$store.commit("createTag", { name: name, iconName: "other" });
   }
 }
 </script>

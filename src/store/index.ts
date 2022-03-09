@@ -22,7 +22,7 @@ const store= new Vuex.Store({
       { name: "医疗", iconName: "medical" },
       { name: "零食", iconName: "snacks" },
       { name: "房贷", iconName: "home" },
-       { name: "文教", iconName: "education" },
+      { name: "文教", iconName: "education" },
     ]
   } as RootState,
   mutations: {

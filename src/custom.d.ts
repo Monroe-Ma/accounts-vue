@@ -11,7 +11,7 @@ type RecordItem = {
 
 type Tag = {
   id: string
-  iconName?:string
+  iconName:string
   name:string
 }
 type tagListName = {

@@ -6,7 +6,12 @@
       <span class="rightIcon"></span>
     </div>
     <div class="form-wrapper">
-      <FormItem fileName="标签名" :value="currentTag.name" @update:value="updateTag" />
+      <FormItem
+        fileName="标签名"
+        v-if="currentTag"
+        :value="currentTag.name"
+        @update:value="updateTag"
+      />
     </div>
     <div class="button-wrapper">
       <Button @click="remove">删除标签</Button>
@@ -37,9 +42,9 @@ export default class EditLabel extends Vue {
   }
 
   updateTag(name: string) {
-    console.log(name);
     if (this.currentTag) {
       this.$store.commit("updateTag", { id: this.currentTag.id, name });
+      console.log(name);
     }
   }
   remove() {
