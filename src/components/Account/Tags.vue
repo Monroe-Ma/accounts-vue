@@ -23,6 +23,7 @@
 </template>
 
 <script lang="ts">
+import clone from "@/lib/clone";
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 
@@ -41,17 +42,18 @@ export default class Tags extends Vue {
 
   toggle(tag: string) {
     const index = this.selectTags.indexOf(tag);
-
     if (index >= 0) {
       this.selectTags.splice(index, 1);
     } else {
+      if (this.selectTags.length > 0) {
+        this.selectTags.splice(index, 1);
+      }
       this.selectTags.push(tag);
     }
     this.$emit("update:value", this.selectTags);
   }
   create() {
     const name = window.prompt("请输入标签");
-
     if (!name) {
       return window.alert("标签不能为空");
     }
