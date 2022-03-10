@@ -17,8 +17,8 @@
         >
           <van-datetime-picker
             v-model="currentDate"
-            type="date"
-            title="选择年月日"
+            type="year-month"
+            title="选择年月"
             :min-date="minDate"
             :max-date="maxDate"
             @confirm="onConfirm"
@@ -28,11 +28,11 @@
         <div class="dataList">
           <div class="data">
             <span class="titleMouth">本月支出</span>
-            <span class="account">0</span>
+            <span class="account">{{mouthPay.paySum}}</span>
           </div>
           <div class="data">
             <span class="titleMouth">本月收入</span>
-            <span class="account">0</span>
+            <span class="account">{{mouthPay.incomeSum}}</span>
           </div>
         </div>
       </div>
@@ -104,7 +104,7 @@ export default class Book extends Vue {
   minDate = new Date(2020, 0, 1);
   maxDate = new Date(2025, 10, 1);
   currentDate = new Date();
-  selectDateStr: string = dayjs(new Date()).format("YYYY-MM-DD");
+  selectDateStr: string = dayjs(new Date()).format("YYYY-MM");
   @Emit()
   showPopup() {
     this.show = true;
@@ -118,7 +118,8 @@ export default class Book extends Vue {
     return val;
   }
   onConfirm(value: Date) {
-    this.selectDateStr = dayjs(value).format("YYYY/MM/DD");
+    this.selectDateStr = dayjs(value).format("YYYY-MM");
+    this.show = false;
   }
   onUpdate(value: string) {
     this.type = value;
@@ -157,7 +158,28 @@ export default class Book extends Vue {
   get recordList() {
     return (this.$store.state as RootState).recordList;
   }
+  get mouthPay() {
+    const newList = clone(this.recordList);
+    // 通过对比selectDateStr的值是否在newList.createAt里面，过滤当月的记录清单
+    // 拿到当月的记录清单遍历一遍amount和type，可以用reduce进行遍历
+    const revenueList = newList.filter(
+      (c) => c.createAt.indexOf(this.selectDateStr) >= 0
+    );
 
+    const paySum = revenueList
+      .filter((t) => t.type === "-")
+      .reduce((sum, item) => {
+        return sum + item.amount;
+      }, 0);
+
+    const incomeSum = revenueList
+      .filter((t) => t.type === "+")
+      .reduce((sum, item) => {
+        return sum + item.amount;
+      }, 0);
+
+    return { incomeSum, paySum };
+  }
   get groupList() {
     const newList = clone(this.recordList);
     const classesList = newList.filter((t) => {
