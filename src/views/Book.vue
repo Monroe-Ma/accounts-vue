@@ -3,10 +3,28 @@
   <Layout>
     <div class="topWrapper">
       <div class="mouthData">
-        <button>
-          {{ timeDay()}}
+        <button is-link @click="showPopup">
+          {{selectDateStr}}
           <Icon name="arrowRight" />
         </button>
+        <van-popup
+          v-model="show"
+          position="bottom"
+          :style="{ height: '30%' }"
+          round
+          get-container="#app"
+          overlay
+        >
+          <van-datetime-picker
+            v-model="currentDate"
+            type="date"
+            title="选择年月日"
+            :min-date="minDate"
+            :max-date="maxDate"
+            @confirm="onConfirm"
+          />
+        </van-popup>
+
         <div class="dataList">
           <div class="data">
             <span class="titleMouth">本月支出</span>
@@ -35,16 +53,18 @@
           </h4>
           <ol>
             <li class="record" v-for=" item in group.item" :key="item.id">
-              <!-- <span>
-                <Icon :name="item.tags" />
-              </span>-->
-              <aside>
-                <span>{{tagString(item.tags)}}</span>
-                <span>
-                  <span class="notes">{{timeFormat(item.createAt)}}</span>
-                  <span class="notes">{{item.notes}}</span>
-                </span>
-              </aside>
+              <ul>
+                <li class="iconBg">
+                  <Icon :name="item.tags[0] && item.tags[0].iconName" />
+                </li>
+                <li>
+                  <span>{{tagString(item.tags)}}</span>
+                  <span>
+                    <span class="notes">{{timeFormat(item.createAt)}}</span>
+                    <span class="notes">{{item.notes}}</span>
+                  </span>
+                </li>
+              </ul>
               <span>{{item.type}}{{item.amount}}</span>
             </li>
           </ol>
@@ -57,29 +77,52 @@
 <script lang="ts">
 import Vue from "vue";
 import Tabs from "@/components/Tabs.vue";
-import { Component, Prop } from "vue-property-decorator";
+import { Component, Emit } from "vue-property-decorator";
 import { recordTypeList } from "@/constants/recordTypeList";
 import dayjs from "dayjs";
 import clone from "@/lib/clone";
 import Icon from "@/components/Icon.vue";
+import { DatetimePicker, Cell, Popup } from "vant";
+import "vant/lib/index.css";
+Vue.use(DatetimePicker);
+Vue.use(Popup);
+Vue.use(Cell);
 
 @Component({
   components: {
     Tabs,
     Icon,
+    Cell,
+    Popup,
+    DatetimePicker,
   },
 })
 export default class Book extends Vue {
-  type = "-";
+  type = "o";
   recordTypeList = recordTypeList;
-  timeDay() {
-    return dayjs(new Date()).format("YYYY-MM-DD");
+  show = false;
+  minDate = new Date(2020, 0, 1);
+  maxDate = new Date(2025, 10, 1);
+  currentDate = new Date();
+  selectDateStr: string = dayjs(new Date()).format("YYYY-MM-DD");
+  @Emit()
+  showPopup() {
+    this.show = true;
+  }
+  formatter(type: string, val: string) {
+    if (type === "month") {
+      return `${val}月`;
+    } else if (type === "day") {
+      return `${val}日`;
+    }
+    return val;
+  }
+  onConfirm(value: Date) {
+    this.selectDateStr = dayjs(value).format("YYYY/MM/DD");
   }
   onUpdate(value: string) {
     this.type = value;
-    console.log("type", this.type);
   }
-
   timeFormat(day: string) {
     return dayjs(day).format("HH:mm:ss");
   }
@@ -87,7 +130,6 @@ export default class Book extends Vue {
   dateFormat(day: string) {
     return dayjs(day).format("MM-DD");
   }
-
   conversionTime(time: string) {
     const now = dayjs();
     const day = dayjs(time);
@@ -117,13 +159,11 @@ export default class Book extends Vue {
   }
 
   get groupList() {
-    // console.log("1111111111", this.recordList);
     const newList = clone(this.recordList);
-    // console.log("1111111111", newList);
     const classesList = newList.filter((t) => {
       return this.type === "o" ? true : t.type === this.type;
     });
-    // console.log("1111111111", classesList);
+
     classesList.sort(
       (a, b) => dayjs(b.createAt).valueOf() - dayjs(a.createAt).valueOf()
     );
@@ -143,7 +183,7 @@ export default class Book extends Vue {
         item: [],
       },
     ];
-    console.log("1", clone(result));
+    // console.log("1", clone(result));
 
     for (let i = 0; i < classesList.length; i++) {
       const current = classesList[i];
@@ -163,14 +203,6 @@ export default class Book extends Vue {
           return sum + item.amount;
         }, 0))
     );
-
-    // for (let i = 0; i <= newList.length; i++) {
-    //   const z = newList[i].tags;
-    //   console.log("z", z);
-
-    // }
-    console.log("2", result);
-
     return result;
   }
 }
@@ -263,10 +295,27 @@ export default class Book extends Vue {
   border-bottom: 1px solid #eee;
   background: white;
   @extend %item;
-  > aside {
+  > ul {
     display: flex;
-    flex-direction: column;
-    > span {
+    list-style: none;
+    align-items: center;
+    .iconBg {
+      width: 40px;
+      height: 40px;
+      background: #fff2e9;
+      border-radius: 20px;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 10px;
+      .icon {
+        fill: #ff9400;
+      }
+    }
+    > li {
+      display: flex;
+      flex-direction: column;
       .notes {
         margin-right: auto;
         /* margin-left: 16px; */
