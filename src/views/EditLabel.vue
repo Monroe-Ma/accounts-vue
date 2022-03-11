@@ -14,7 +14,8 @@
       />
     </div>
     <div class="button-wrapper">
-      <Button @click="remove">删除标签</Button>
+      <Button class="delete" @click="remove">删除标签</Button>
+      <Button @click="save">保存</Button>
     </div>
   </Layout>
 </template>
@@ -40,7 +41,9 @@ export default class EditLabel extends Vue {
       this.$router.replace("./404");
     }
   }
-
+  save() {
+    alert("保存成功");
+  }
   updateTag(name: string) {
     if (this.currentTag) {
       this.$store.commit("updateTag", { id: this.currentTag.id, name });
@@ -86,6 +89,11 @@ export default class EditLabel extends Vue {
 .button-wrapper {
   text-align: center;
   padding: 16px;
-  margin-top: 44-16px;
+  margin-top: 620px;
+}
+::v-deep .delete {
+  background: none;
+  border: 1px solid #ff9400;
+  color: #ff9400;
 }
 </style>

@@ -2,9 +2,10 @@
   <Layout>
     <div class="tags">
       <router-link :to=" `/labels/edit/${tag.id}` " class="tag" v-for=" tag in tags " :key="tag.id">
+        <li class="iconBg">
+          <Icon :name="tag.iconName" />
+        </li>
         <span>{{tag.name}}</span>
-
-        <Icon name="arrowRight" />
       </router-link>
     </div>
     <div class="button-wrapper">
@@ -39,26 +40,43 @@ export default class Labels extends Vue {
 
 <style lang="scss" scoped>
 .tags {
-  background: white;
   font-size: 16px;
-  padding-left: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
   > .tag {
     min-height: 44px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid #e6e6e6;
-  }
-  svg {
-    width: 18px;
-    height: 18px;
-    color: #666;
-    margin-right: 16px;
+    padding: 10px 0;
+    align-items: center;
+    width: 30%;
+    margin: 10px 0;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    .iconBg {
+      width: 40px;
+      height: 40px;
+      background: #fff2e9;
+      border-radius: 20px;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 8px;
+      .icon {
+        fill: #ff9400;
+      }
+    }
   }
 }
-.button-wrapper {
+.button-wrapper ::v-deep {
   text-align: center;
   padding: 16px;
   margin-top: 44-16px;
+  > button {
+  }
 }
 </style>

@@ -12,8 +12,7 @@
       <button @click="inputContent">7</button>
       <button @click="inputContent">8</button>
       <button @click="inputContent">9</button>
-      <!-- <button @click="ok" id="save" :style="{height:getH()+'px'}">OK</button> -->
-      <button @click="ok" id="save" :height=" height+ 'px' ">{{getH.height}}</button>
+      <button @click="ok" id="save" :style=" height= height +'px' ">{{height}}</button>
       <button @click="inputContent" id="zero">0</button>
       <button @click="inputContent">.</button>
     </div>
@@ -21,34 +20,33 @@
 </template>
 
 <script lang="ts">
+import clone from "@/lib/clone";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 @Component
 export default class NumberPad extends Vue {
   @Prop(Number) readonly value!: number;
-  @Prop(String) height!: string;
 
   @Watch("output")
   onChangeValue(newVal: string, oldVal: string) {
     this.$emit("update:value", Number(newVal));
   }
-
+  height: number = 0;
   mounted() {
-    // this.$emit("getH", this.height);
+    this.getH();
   }
-  //TUDU
-  // height = document.getElementById("zero")!.offsetHeight * 2 + 299;
   getH() {
-    let elem: HTMLElement;
     const zero = document.getElementById("zero");
-    let x: number = 0;
-    if (zero) {
-      elem = zero;
-      x = elem.offsetHeight * 2 + 299;
-    }
-    const height = x + "px";
+    let x = 0;
 
-    return height;
+    if (zero) {
+      x = zero.offsetHeight * 2 + 4;
+    }
+    console.log("x", x);
+    const height = x;
+    console.log("height", height);
+    this.height = clone(height);
+    console.log("this.height", this.height);
   }
 
   output = this.value.toString();
