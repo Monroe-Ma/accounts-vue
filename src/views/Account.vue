@@ -1,7 +1,7 @@
 <template>
   <Layout class-prefix="layout">
     <Output @update:value="onUpdateAmount" :value="record.amount" />
-    <Tags @update:value="onUpdateTags = $event" :value="record.tags" />
+    <Tags @update:value="record.tags = $event" />
     <div class="classesItem">
       <button is-link @click="showPopup">
         {{ selectDateStr}}
@@ -45,6 +45,7 @@ import { writeTypeList } from "@/constants/recordTypeList";
 import Tabs from "../components/Tabs.vue";
 import Output from "@/components/Account/Output.vue";
 import dayjs from "dayjs";
+import clone from "@/lib/clone";
 import { Popup, DatetimePicker } from "vant";
 Vue.use(Popup, DatetimePicker);
 
@@ -106,10 +107,8 @@ export default class Account extends Vue {
   }
 
   onUpdateAmount(value: number) {
+    console.log(value);
     this.record.amount = value;
-  }
-  onUpdateTags(value: string[]) {
-    this.record.tags = value;
   }
   saveRecord() {
     (this.record.createAt = this.selectDateStr),
@@ -117,8 +116,9 @@ export default class Account extends Vue {
     if (this.$store.state.createRecordError === null) {
       window.alert("已保存");
     }
+    console.log("createRecord", clone(this.record));
     this.record.notes = "";
-    this.record.tags = [];
+    // console.log("createRecord", this.record);
   }
 }
 </script>

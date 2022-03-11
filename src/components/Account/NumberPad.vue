@@ -12,8 +12,8 @@
       <button @click="inputContent">7</button>
       <button @click="inputContent">8</button>
       <button @click="inputContent">9</button>
-      <button @click="ok" id="save" :style=" {height:height +'px'} ">OK</button>
-      <button @click="inputContent" id="zero">0</button>
+      <button @click="ok" id="save" :style=" {height:saveHeight +'px'} ">OK</button>
+      <button @click="inputContent" id="zero" :style=" {width:zeroWidth +'px'} ">0</button>
       <button @click="inputContent">.</button>
     </div>
   </div>
@@ -31,22 +31,27 @@ export default class NumberPad extends Vue {
   onChangeValue(newVal: string, oldVal: string) {
     this.$emit("update:value", Number(newVal));
   }
-  height: number = 0;
+  saveHeight: number = 0;
+  zeroWidth: number = 0;
   mounted() {
     this.getH();
   }
   getH() {
     const zero = document.getElementById("zero");
-    let x = 0;
+    const save = document.getElementById("save");
+    let zeroHeight = 0;
+    let saveWidth = 0;
 
     if (zero) {
-      x = zero.offsetHeight * 2 + 4;
+      zeroHeight = zero.offsetHeight;
     }
-    console.log("x", x);
-    const height = x;
-    console.log("height", height);
-    this.height = clone(height);
-    console.log("this.height", this.height);
+    if (save) {
+      saveWidth = save.offsetWidth;
+    }
+    const height = zeroHeight * 2 + 4;
+    const width = saveWidth * 2 + 2;
+    this.saveHeight = height;
+    this.zeroWidth = width;
   }
 
   output = this.value.toString();
@@ -111,11 +116,8 @@ export default class NumberPad extends Vue {
     font-size: 18px;
     color: #333;
   }
-  #zero {
-    width: 49%;
-  }
+
   #save {
-    height: 110px;
     color: #fff;
     background: #ff9400;
     float: right;

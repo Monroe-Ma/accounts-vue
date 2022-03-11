@@ -39,7 +39,7 @@
       </div>
     </div>
 
-    <span class="wrapper">
+    <span v-if="groupList.length>0" class="wrapper">
       <Tabs
         classPrefix="type"
         :data-source="recordTypeList"
@@ -72,6 +72,10 @@
         </li>
       </ul>
     </span>
+    <div v-else class="noRecord">
+      <Icon name="noRecords" />
+      <span>暂无相关信息</span>
+    </div>
   </Layout>
 </template>
 
@@ -147,6 +151,7 @@ export default class Book extends Vue {
   }
 
   tagString(tags: Tag[]) {
+    // console.log(tags);
     if (tags.length === 0) {
       return "无";
     } else {
@@ -281,6 +286,18 @@ export default class Book extends Vue {
         }
       }
     }
+  }
+}
+.noRecord {
+  margin-top: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #666;
+  .icon {
+    width: 100px;
+    height: 100px;
   }
 }
 ::v-deep .wrapper {

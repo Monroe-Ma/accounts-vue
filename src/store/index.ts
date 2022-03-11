@@ -33,7 +33,8 @@ const store= new Vuex.Store({
     state.recordList= JSON.parse(window.localStorage.getItem("recordList") || "[]") as RecordItem[]
      return this.recordList
   },
-    createRecord(state,record) {
+    createRecord(state, record) {
+      console.log(clone(record))
       const record2: RecordItem = clone(record);
     state.recordList.push(record2);
       store.commit('saveRecords')
