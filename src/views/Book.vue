@@ -130,7 +130,7 @@ export default class Book extends Vue {
     this.type = value;
   }
   timeFormat(day: string) {
-    return dayjs(day).format("HH:mm:ss");
+    return dayjs(day).format("HH:ss:mm");
   }
   onCancel() {
     this.show = false;
@@ -169,8 +169,9 @@ export default class Book extends Vue {
   get mouthPay() {
     const newList = clone(this.recordList);
     const revenueList = newList.filter(
-      (c) => c.createAt.indexOf(this.selectDateStr) >= 0
+      (c) => dayjs(c.createAt).toString().indexOf(this.selectDateStr) >= 0
     );
+
     const paySum = revenueList
       .filter((t) => t.type === "-")
       .reduce((sum, item) => {

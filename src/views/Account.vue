@@ -55,7 +55,7 @@ type RecordItem = {
   notes: string;
   type: string;
   amount: number;
-  createAt?: string;
+  createAt: Date;
 };
 @Component({
   components: { Tags, FormItem, NumberPad, Tabs, Output },
@@ -98,6 +98,7 @@ export default class Account extends Vue {
     notes: "",
     type: "-",
     amount: 0,
+    createAt: new Date(),
   };
   created() {
     this.$store.commit("fetchRecords");
@@ -111,8 +112,9 @@ export default class Account extends Vue {
     this.record.amount = value;
   }
   saveRecord() {
-    (this.record.createAt = this.selectDateStr),
-      this.$store.commit("createRecord", this.record);
+    const createAt = dayjs(this.record.createAt).format("YYYY-MM-DD");
+    createAt === this.selectDateStr;
+    this.$store.commit("createRecord", this.record);
     if (this.$store.state.createRecordError === null) {
       window.alert("已保存");
     }
