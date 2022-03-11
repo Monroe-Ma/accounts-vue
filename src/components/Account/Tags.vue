@@ -23,18 +23,14 @@
 </template>
 
 <script lang="ts">
-import clone from "@/lib/clone";
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 
-@Component({
-  components: {},
-})
+@Component
 export default class Tags extends Vue {
   get tagList() {
     return this.$store.state.tagList;
   }
-
   selectTags: string[] = [];
   created() {
     this.$store.commit("fetchTag");
@@ -50,6 +46,7 @@ export default class Tags extends Vue {
       }
       this.selectTags.push(tag);
     }
+
     this.$emit("update:value", this.selectTags);
   }
   create() {
@@ -67,8 +64,8 @@ export default class Tags extends Vue {
 
 .tags {
   font-size: 14px;
-  padding: 16px;
-  flex-grow: 1;
+  padding: 10px;
+  /* flex-grow: 1; */
   background: #fff;
   > .current {
     display: flex;
@@ -77,11 +74,12 @@ export default class Tags extends Vue {
       $h: 24px;
       line-height: $h;
       border-radius: 100px;
-      padding: 0 16px;
+      margin-bottom: 16px;
       margin-top: 4px;
       display: flex;
       flex-direction: column;
       align-items: center;
+      width: 78px;
       > .iconBg {
         display: block;
         width: 40px;

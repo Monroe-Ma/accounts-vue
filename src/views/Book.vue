@@ -22,6 +22,7 @@
             :min-date="minDate"
             :max-date="maxDate"
             @confirm="onConfirm"
+            @cancel="onCancel"
           />
         </van-popup>
 
@@ -127,10 +128,10 @@ export default class Book extends Vue {
   timeFormat(day: string) {
     return dayjs(day).format("HH:mm:ss");
   }
-
-  dateFormat(day: string) {
-    return dayjs(day).format("MM-DD");
+  onCancel() {
+    this.show = false;
   }
+
   conversionTime(time: string) {
     const now = dayjs();
     const day = dayjs(time);
@@ -140,6 +141,8 @@ export default class Book extends Vue {
       return "昨天";
     } else if (day.isSame(now.subtract(2, "day"), "day")) {
       return "前天";
+    } else {
+      return time;
     }
   }
 
@@ -160,12 +163,9 @@ export default class Book extends Vue {
   }
   get mouthPay() {
     const newList = clone(this.recordList);
-    // 通过对比selectDateStr的值是否在newList.createAt里面，过滤当月的记录清单
-    // 拿到当月的记录清单遍历一遍amount和type，可以用reduce进行遍历
     const revenueList = newList.filter(
       (c) => c.createAt.indexOf(this.selectDateStr) >= 0
     );
-
     const paySum = revenueList
       .filter((t) => t.type === "-")
       .reduce((sum, item) => {
@@ -205,7 +205,6 @@ export default class Book extends Vue {
         item: [],
       },
     ];
-    // console.log("1", clone(result));
 
     for (let i = 0; i < classesList.length; i++) {
       const current = classesList[i];
@@ -225,6 +224,7 @@ export default class Book extends Vue {
           return sum + item.amount;
         }, 0))
     );
+
     return result;
   }
 }
@@ -286,7 +286,6 @@ export default class Book extends Vue {
 ::v-deep .wrapper {
   display: flex;
   flex-direction: column;
-  height: 93vh;
   margin-top: 10px;
   > .tabs {
     overflow: auto;
