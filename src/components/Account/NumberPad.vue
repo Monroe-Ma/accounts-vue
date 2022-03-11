@@ -12,7 +12,7 @@
       <button @click="inputContent">7</button>
       <button @click="inputContent">8</button>
       <button @click="inputContent">9</button>
-      <button @click="ok" id="save" :style=" height= height +'px' ">{{height}}</button>
+      <button @click="ok" id="save" :style=" {height:height +'px'} ">OK</button>
       <button @click="inputContent" id="zero">0</button>
       <button @click="inputContent">.</button>
     </div>
