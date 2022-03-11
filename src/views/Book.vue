@@ -2,50 +2,53 @@
 <template>
   <Layout>
     <div class="topWrapper">
-      <div class="mouthData">
-        <button is-link @click="showPopup">
-          {{selectDateStr}}
-          <Icon name="arrowRight" />
-        </button>
-        <van-popup
-          v-model="show"
-          position="bottom"
-          :style="{ height: '30%' }"
-          round
-          get-container="#app"
-          overlay
-        >
-          <van-datetime-picker
-            v-model="currentDate"
-            type="year-month"
-            title="选择年月"
-            :min-date="minDate"
-            :max-date="maxDate"
-            @confirm="onConfirm"
-            @cancel="onCancel"
-          />
-        </van-popup>
+      <div class="mouthDataWrapper">
+        <div class="mouthData">
+          <button is-link @click="showPopup">
+            {{selectDateStr}}
+            <Icon name="arrowRight" />
+          </button>
+          <van-popup
+            v-model="show"
+            position="bottom"
+            :style="{ height: '30%' }"
+            round
+            get-container="#app"
+            overlay
+          >
+            <van-datetime-picker
+              v-model="currentDate"
+              type="year-month"
+              title="选择年月"
+              :min-date="minDate"
+              :max-date="maxDate"
+              @confirm="onConfirm"
+              @cancel="onCancel"
+            />
+          </van-popup>
 
-        <div class="dataList">
-          <div class="data">
-            <span class="titleMouth">本月支出</span>
-            <span class="account">{{mouthPay.paySum}}</span>
-          </div>
-          <div class="data">
-            <span class="titleMouth">本月收入</span>
-            <span class="account">{{mouthPay.incomeSum}}</span>
+          <div class="dataList">
+            <div class="data">
+              <span class="titleMouth">本月支出</span>
+              <span class="account">{{mouthPay.paySum}}</span>
+            </div>
+            <div class="data">
+              <span class="titleMouth">本月收入</span>
+              <span class="account">{{mouthPay.incomeSum}}</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
-
-    <span v-if="groupList.length>0" class="wrapper">
+    <div class="tabsWrapper">
       <Tabs
         classPrefix="type"
         :data-source="recordTypeList"
         :value="type"
         @update:value="onUpdate"
       />
+    </div>
+    <span v-if="groupList.length>0" class="wrapper">
       <ul>
         <li v-for=" (group,index) in groupList " :key="index">
           <h4 class="title">
@@ -245,50 +248,82 @@ export default class Book extends Vue {
   align-content: center;
 }
 .topWrapper {
-  background: #ff9400;
-  border-radius: 0 0 40px 40px;
-  padding-top: 30px;
-  .mouthData {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    background: #fff;
-    margin: 0 10px;
-    border-radius: 10px;
-    padding: 20px;
-    > button {
-      border: none;
-      width: 140px;
-      margin: 10px 0;
-      background: #f6f6f6;
-      padding: 10px;
-      border-radius: 6px;
-      .icon {
-        margin-left: 6px;
-      }
-    }
-    .dataList {
+  .mouthDataWrapper {
+    background: #ff9400;
+    border-radius: 0 0 40px 40px;
+    padding-top: 30px;
+    .mouthData {
       display: flex;
-      justify-content: space-evenly;
       align-items: center;
-      width: 300px;
-      margin-top: 10px;
-      .data {
-        display: flex;
-        flex-direction: column;
-        .titleMouth {
-          color: #999;
-          font-size: 14px;
+      flex-direction: column;
+      background: #fff;
+      margin: 0 10px;
+      border-radius: 10px;
+      padding: 20px;
+      /* box-shadow: 0 10px 30px 0 rgb(0 0 0 / 10%); */
+      > button {
+        border: none;
+        width: 140px;
+        margin: 10px 0;
+        background: #f6f6f6;
+        padding: 10px;
+        border-radius: 6px;
+        .icon {
+          margin-left: 6px;
         }
-        .account {
-          color: #333;
-          font-weight: 600;
-          font-size: 18px;
+      }
+      .dataList {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        width: 300px;
+        margin-top: 10px;
+        .data {
+          display: flex;
+          flex-direction: column;
+          .titleMouth {
+            color: #999;
+            font-size: 14px;
+          }
+          .account {
+            color: #333;
+            font-weight: 600;
+            font-size: 18px;
+          }
         }
       }
     }
   }
 }
+::v-deep .tabsWrapper {
+  background: #fff;
+  padding: 10px 0;
+  margin-top: 10px;
+  .tabs {
+    margin-top: 10px;
+    overflow: auto;
+    width: 300px;
+    margin: 0 auto;
+
+    background: #fff;
+    .type-tabs-item {
+      border-radius: 8px;
+      font-size: 18px;
+      color: #999;
+
+      height: 54px;
+      &.selected {
+        border-radius: 8px;
+        background: #ff9400;
+        color: #fff;
+        &::after {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
 .noRecord {
   margin-top: 200px;
   display: flex;
@@ -301,31 +336,10 @@ export default class Book extends Vue {
     height: 100px;
   }
 }
-::v-deep .wrapper {
+.wrapper {
   display: flex;
   flex-direction: column;
   margin-top: 10px;
-  > .tabs {
-    overflow: auto;
-    width: 300px;
-    margin: 0 auto;
-    margin-bottom: 20px;
-    .type-tabs-item {
-      border-radius: 8px;
-      font-size: 18px;
-      color: #999;
-      background: #eee;
-      height: 54px;
-      &.selected {
-        border-radius: 8px;
-        background: #ff9400;
-        color: #fff;
-        &::after {
-          display: none;
-        }
-      }
-    }
-  }
 }
 .title {
   @extend %item;
