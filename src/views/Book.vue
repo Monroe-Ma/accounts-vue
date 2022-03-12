@@ -171,6 +171,8 @@ export default class Book extends Vue {
     return (this.$store.state as RootState).recordList;
   }
   get mouthPay() {
+    console.log("this.recordList", this.recordList);
+
     const newList = clone(this.recordList);
     console.log("newList", newList);
 

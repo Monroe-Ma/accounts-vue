@@ -1,7 +1,7 @@
 <template>
   <Layout>
     <div class="wrapper">
-      {{monthList}}
+      {{mouthPay}}
       <MonthChart class="chart" :options="monthOptions" />
     </div>
     <div class="wrapper">
@@ -17,6 +17,9 @@ import intervalList from "@/constants/intervalList";
 import Tabs from "@/components/Tabs.vue";
 import CurrentMonthPayChart from "@/components/CurrentMonthPayChart.vue";
 import MonthChart from "@/components/MonthChart.vue";
+import clone from "@/lib/clone";
+import dayjs from "dayjs";
+import * as _ from "lodash";
 
 @Component({
   components: {
@@ -28,14 +31,97 @@ import MonthChart from "@/components/MonthChart.vue";
 export default class Statistics extends Vue {
   interval = "day";
   intervalList = intervalList;
+  beforeCreate() {
+    this.$store.commit("fetchRecords");
+  }
+
+  mounted() {
+    this.$store.commit("fetchRecords");
+  }
   get recordList() {
     return (this.$store.state as RootState).recordList;
   }
 
   get monthList() {
-    console.log("grouped list 被读取了", this.recordList);
+    const newList = clone(this.recordList);
+    const result = [];
+    for (let i = 0; i < 12; i++) {
+      const mouth = new Date();
+      const mouthString = dayjs(mouth).subtract(i, "month").format("YYYY-MM");
 
-    // ['2021-01', '2021-02', '2021-03', '2021-04', '2021-05', '2021-06', '2021-07', '2021-08', '2021-09', '2021-10', '2021-11'],
+      const mouthList = newList.filter((t) => {
+        return dayjs(t.createAt).format("YYYY-MM") === mouthString;
+      });
+      const paySum = mouthList
+        .filter((t) => t.type === "-")
+        .reduce((sum, item) => {
+          return sum + item.amount;
+        }, 0);
+      const incomeSum = mouthList
+        .filter((t) => t.type === "+")
+        .reduce((sum, item) => {
+          return sum + item.amount;
+        }, 0);
+      result.push({
+        yearMouth: mouthString,
+        mouthPay: paySum,
+        mouthIncome: incomeSum,
+      });
+    }
+    // console.log(result);
+
+    const key = result.map((t) => t.yearMouth);
+    // console.log("key", key);
+    // 【1，2，3 】
+    const yearMouth = key.sort((a: any, b: any) => a.valueOf() - b.valueOf());
+
+    const mouthPay = result.map((t) => t.mouthPay);
+    const mouthIncome = result.map((t) => t.mouthIncome);
+    return { yearMouth, mouthPay, mouthIncome };
+  }
+  get mouthPay() {
+    console.log("this.recordList", this.recordList);
+
+    const newList = clone(this.recordList);
+    console.log("newList", newList);
+
+    const revenueList = newList.filter(
+      (c) => c.createAt.indexOf(dayjs(new Date()).format("YYYY-MM-DD")) >= 0
+    );
+    console.log("revenueList", revenueList);
+    const payList = revenueList.filter((t) => {
+      if (t.type === "-") {
+        return t.tags;
+      }
+      return;
+    });
+
+    console.log("pay", clone(payList));
+    const arrayPay: any[] = [];
+
+    for (let i = 0; i < payList.length; i++) {
+      const element = arrayPay[i];
+
+      if (payList[i]) {
+        const value = payList[i].amount;
+        // const name = payList[i].tags.name;
+      }
+    }
+
+    arrayPay.push();
+    console.log("pay", payList);
+
+    // const paySum = revenueList
+    //   .filter((t) => t.type === "-")
+    //   .reduce((sum, item) => {
+    //     return sum + item.amount;
+    //   }, 0);
+
+    // const incomeSum = revenueList
+    //   .filter((t) => t.type === "+")
+    //   .reduce((sum, item) => {
+    //     return sum + item.amount;
+    //   }, 0);
 
     return;
   }
@@ -46,6 +132,16 @@ export default class Statistics extends Vue {
         text: "月度收入支出对比",
         subtext: "金额",
       },
+      dataZoom: [
+        {
+          id: "dataZoomX",
+          type: "inside",
+          xAxisIndex: [0],
+          filterMode: "filter",
+          start: 70,
+        },
+      ],
+
       tooltip: {
         trigger: "axis",
       },
@@ -64,12 +160,16 @@ export default class Statistics extends Vue {
           saveAsImage: { show: true },
         },
       },
+
       calculable: true,
       xAxis: [
         {
           type: "category",
+          axisLabel: {
+            interval: 0,
+          },
           // prettier-ignore
-          data: ['2021-01', '2021-02', '2021-03', '2021-04', '2021-05', '2021-06', '2021-07', '2021-08', '2021-09', '2021-10', '2021-11', '2021-12'],
+          data: this.monthList.yearMouth,
         },
       ],
       yAxis: [
@@ -81,9 +181,7 @@ export default class Statistics extends Vue {
         {
           name: "收入",
           type: "bar",
-          data: [
-            2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3,
-          ],
+          data: this.monthList.mouthIncome,
           markPoint: {
             data: [
               { type: "max", name: "Max" },
@@ -100,9 +198,7 @@ export default class Statistics extends Vue {
         {
           name: "支出",
           type: "bar",
-          data: [
-            2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3,
-          ],
+          data: this.monthList.mouthPay,
           markPoint: {
             data: [
               { name: "Max", value: 182.2, xAxis: 7, yAxis: 183 },

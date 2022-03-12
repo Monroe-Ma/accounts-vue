@@ -15,18 +15,18 @@ export default class CurrentMonthPayChart extends Vue {
   @Prop()
   option?: EChartOption;
 
-  get recordList() {
-    return (this.$store.state as RootState).recordList;
-  }
+  // get recordList() {
+  //   return (this.$store.state as RootState).recordList;
+  // }
 
-  get monthList() {
-    console.log("grouped list 被读取了");
+  // get monthList() {
+  //   console.log("grouped list 被读取了");
 
-    // ['2021-01', '2021-02', '2021-03', '2021-04', '2021-05', '2021-06', '2021-07', '2021-08', '2021-09', '2021-10', '2021-11'],
-    console.log("this.recordList", this.recordList);
+  //   // ['2021-01', '2021-02', '2021-03', '2021-04', '2021-05', '2021-06', '2021-07', '2021-08', '2021-09', '2021-10', '2021-11'],
+  //   console.log("this.recordList", this.recordList);
 
-    return;
-  }
+  //   return;
+  // }
 
   mounted() {
     const chart = echarts.init(this.$refs.wrapper as HTMLDivElement);
