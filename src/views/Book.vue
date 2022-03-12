@@ -110,7 +110,7 @@ export default class Book extends Vue {
   recordTypeList = recordTypeList;
   show = false;
   minDate = new Date(2020, 0, 1);
-  maxDate = new Date(2025, 10, 1);
+  maxDate = new Date();
   currentDate = new Date();
   selectDateStr: string = dayjs(new Date()).format("YYYY-MM");
   @Emit()
@@ -132,9 +132,10 @@ export default class Book extends Vue {
   onUpdate(value: string) {
     this.type = value;
   }
-  timeFormat(day: string) {
-    return dayjs(day).format("HH:ss:mm");
+  timeFormat(value: Date) {
+    return dayjs(value).format("HH:ss:mm");
   }
+
   onCancel() {
     this.show = false;
   }
@@ -171,9 +172,12 @@ export default class Book extends Vue {
   }
   get mouthPay() {
     const newList = clone(this.recordList);
+    console.log("newList", newList);
+
     const revenueList = newList.filter(
-      (c) => dayjs(c.createAt).toString().indexOf(this.selectDateStr) >= 0
+      (c) => c.createAt.indexOf(this.selectDateStr) >= 0
     );
+    console.log("revenueList", revenueList);
 
     const paySum = revenueList
       .filter((t) => t.type === "-")
@@ -210,7 +214,7 @@ export default class Book extends Vue {
 
     const result: Result = [
       {
-        title: dayjs(classesList[0].createAt).format("YYYY-MM-DD"),
+        title: classesList[0].createAt,
         item: [],
       },
     ];
@@ -260,7 +264,7 @@ export default class Book extends Vue {
       margin: 0 10px;
       border-radius: 10px;
       padding: 20px;
-      /* box-shadow: 0 10px 30px 0 rgb(0 0 0 / 10%); */
+
       > button {
         border: none;
         width: 140px;

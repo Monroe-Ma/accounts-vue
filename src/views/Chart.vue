@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Component, Prop } from "vue-property-decorator";
+import { Component } from "vue-property-decorator";
 
 import * as echarts from "echarts";
 
@@ -48,6 +48,7 @@ export default class Chart extends Vue {
           {
             type: "category",
             // prettier-ignore
+            //遍历出里面所有list里面所有数据的crateAT的数组，需要转格式
             data: ['2021-01', '2021-02', '2021-03', '2021-04', '2021-05', '2021-06', '2021-07', '2021-08', '2021-09', '2021-10', '2021-11'],
           },
         ],
@@ -60,6 +61,7 @@ export default class Chart extends Vue {
           {
             name: "收入",
             type: "bar",
+            // //遍历出里面所有list里面所有数据的收入的月总和的数组，需要做相加计算
             data: [
               2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4,
               3.3,
@@ -77,6 +79,7 @@ export default class Chart extends Vue {
           {
             name: "支出",
             type: "bar",
+            // //遍历出里面所有list里面所有数据的收入的月总和的数组，需要做相减计算
             data: [
               2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0,
               2.3,

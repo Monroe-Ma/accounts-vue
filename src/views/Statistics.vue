@@ -1,6 +1,6 @@
 <template>
   <Layout>
-    <Tabs classPrefix="interval" :data-source="intervalList" :value.sync="interval" />
+    <!-- <Tabs classPrefix="interval" :data-source="intervalList" :value.sync="interval" /> -->
     <Chart class="chart" :option="option" />
   </Layout>
 </template>

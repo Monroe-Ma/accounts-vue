@@ -4,7 +4,7 @@
     <Tags @update:value="record.tags = $event" />
     <div class="classesItem">
       <button is-link @click="showPopup">
-        {{ selectDateStr}}
+        {{timeFormat(selectDateStr)}}
         <Icon name="arrowRight" />
       </button>
       <van-popup
@@ -55,7 +55,7 @@ type RecordItem = {
   notes: string;
   type: string;
   amount: number;
-  createAt: Date;
+  createAt?: Date;
 };
 @Component({
   components: { Tags, FormItem, NumberPad, Tabs, Output },
@@ -66,10 +66,17 @@ export default class Account extends Vue {
   recordTypeList = writeTypeList;
   tags = tagList;
   minDate = new Date(2020, 0, 1);
-  maxDate = new Date(2025, 10, 1);
+  maxDate = new Date();
   currentDate = new Date();
   show = false;
-  selectDateStr: string = dayjs(new Date()).format("YYYY-MM-DD");
+  selectDateStr = new Date();
+  // selectDateStr: string = dayjs(new Date()).format("YYYY-MM-DD");
+  record: RecordItem = {
+    tags: [],
+    notes: "",
+    type: "-",
+    amount: 0,
+  };
   @Emit()
   formatter(type: string, val: string) {
     if (type === "month") {
@@ -79,11 +86,14 @@ export default class Account extends Vue {
     }
     return val;
   }
+  timeFormat(value: Date) {
+    return dayjs(value).format("YYYY-MM-DD");
+  }
   showPopup() {
     this.show = true;
   }
   onConfirm(value: Date) {
-    this.selectDateStr = dayjs(value).format("YYYY-MM-DD");
+    this.selectDateStr = value;
     this.show = false;
   }
   onCancel() {
@@ -93,13 +103,6 @@ export default class Account extends Vue {
     return this.$store.state.count;
   }
 
-  record: RecordItem = {
-    tags: [],
-    notes: "",
-    type: "-",
-    amount: 0,
-    createAt: new Date(),
-  };
   created() {
     this.$store.commit("fetchRecords");
   }
@@ -108,19 +111,16 @@ export default class Account extends Vue {
   }
 
   onUpdateAmount(value: number) {
-    console.log(value);
     this.record.amount = value;
   }
   saveRecord() {
-    const createAt = dayjs(this.record.createAt).format("YYYY-MM-DD");
-    createAt === this.selectDateStr;
+    this.record.createAt = this.selectDateStr;
+
     this.$store.commit("createRecord", this.record);
     if (this.$store.state.createRecordError === null) {
       window.alert("已保存");
     }
-    console.log("createRecord", clone(this.record));
     this.record.notes = "";
-    // console.log("createRecord", this.record);
   }
 }
 </script>
