@@ -1,7 +1,12 @@
 <template>
   <Layout>
-    <!-- <Tabs classPrefix="interval" :data-source="intervalList" :value.sync="interval" /> -->
-    <Chart class="chart" :option="option" />
+    <div class="wrapper">
+      {{monthList}}
+      <MonthChart class="chart" :options="monthOptions" />
+    </div>
+    <div class="wrapper">
+      <CurrentMonthPayChart class="chart" :option="currentMonthPayOption" />
+    </div>
   </Layout>
 </template>
 
@@ -10,40 +15,168 @@ import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import intervalList from "@/constants/intervalList";
 import Tabs from "@/components/Tabs.vue";
-import Chart from "@/views/Chart.vue";
+import CurrentMonthPayChart from "@/components/CurrentMonthPayChart.vue";
+import MonthChart from "@/components/MonthChart.vue";
 
 @Component({
   components: {
     Tabs,
-    Chart,
+    CurrentMonthPayChart,
+    MonthChart,
   },
 })
 export default class Statistics extends Vue {
   interval = "day";
   intervalList = intervalList;
+  get recordList() {
+    return (this.$store.state as RootState).recordList;
+  }
+
+  get monthList() {
+    console.log("grouped list 被读取了", this.recordList);
+
+    // ['2021-01', '2021-02', '2021-03', '2021-04', '2021-05', '2021-06', '2021-07', '2021-08', '2021-09', '2021-10', '2021-11'],
+
+    return;
+  }
+
+  get monthOptions() {
+    return {
+      title: {
+        text: "月度收入支出对比",
+        subtext: "金额",
+      },
+      tooltip: {
+        trigger: "axis",
+      },
+      legend: {
+        data: ["收入", "支出"],
+        orient: "horizontal",
+        left: "center",
+        bottom: "bottom",
+      },
+      toolbox: {
+        show: true,
+        feature: {
+          dataView: { show: true, readOnly: false },
+          magicType: { show: true, type: ["line", "bar"] },
+          restore: { show: true },
+          saveAsImage: { show: true },
+        },
+      },
+      calculable: true,
+      xAxis: [
+        {
+          type: "category",
+          // prettier-ignore
+          data: ['2021-01', '2021-02', '2021-03', '2021-04', '2021-05', '2021-06', '2021-07', '2021-08', '2021-09', '2021-10', '2021-11', '2021-12'],
+        },
+      ],
+      yAxis: [
+        {
+          type: "value",
+        },
+      ],
+      series: [
+        {
+          name: "收入",
+          type: "bar",
+          data: [
+            2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3,
+          ],
+          markPoint: {
+            data: [
+              { type: "max", name: "Max" },
+              { type: "min", name: "Min" },
+            ],
+          },
+          markLine: {
+            data: [{ type: "average", name: "Avg" }],
+          },
+          itemStyle: {
+            color: "#3BA272",
+          },
+        },
+        {
+          name: "支出",
+          type: "bar",
+          data: [
+            2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3,
+          ],
+          markPoint: {
+            data: [
+              { name: "Max", value: 182.2, xAxis: 7, yAxis: 183 },
+              { name: "Min", value: 2.3, xAxis: 11, yAxis: 3 },
+            ],
+          },
+          markLine: {
+            data: [{ type: "average", name: "Avg" }],
+          },
+          itemStyle: {
+            color: "#FC8452",
+          },
+        },
+      ],
+    };
+  }
+  get currentMonthPayOption() {
+    return {
+      title: {
+        text: "本月支出对比",
+      },
+      tooltip: {
+        trigger: "item",
+      },
+      legend: {
+        orient: "horizontal",
+        left: "center",
+        bottom: "bottom",
+      },
+      series: [
+        {
+          name: "Access From",
+          type: "pie",
+          radius: ["40%", "70%"],
+          avoidLabelOverlap: false,
+          itemStyle: {
+            borderRadius: 10,
+            borderColor: "#fff",
+            borderWidth: 2,
+          },
+          label: {
+            show: false,
+            position: "center",
+          },
+          emphasis: {
+            label: {
+              show: true,
+              fontSize: "40",
+              fontWeight: "bold",
+            },
+          },
+          labelLine: {
+            show: false,
+          },
+          data: [
+            { value: 1048, name: "Search Engine" },
+            { value: 735, name: "Direct" },
+            { value: 580, name: "Email" },
+            { value: 484, name: "Union Ads" },
+            { value: 300, name: "Video Ads" },
+          ],
+        },
+      ],
+    };
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 @import "~@/assets/helper.scss";
-.chart {
-  height: 400px;
-}
-::v-deep .tabs {
+.wrapper {
   background: #fff;
-  .interval-tabs-item {
-    &.selected {
-      color: #ff9400;
-    }
-    &.selected::after {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      background: #ff9400;
-    }
-  }
+  margin: 10px;
+  padding: 4px;
+  border-radius: 10px;
 }
 </style>
