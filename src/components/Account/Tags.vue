@@ -72,17 +72,19 @@ export default class Tags extends Vue {
 .tags {
   font-size: 14px;
   padding: 10px;
-  /* flex-grow: 1; */
+  flex-grow: 1;
   background: #fff;
+  overflow: scroll;
   > .current {
     display: flex;
     flex-wrap: wrap;
     > li {
       $h: 24px;
+      margin-bottom: 14px;
       line-height: $h;
       border-radius: 100px;
-      margin-bottom: 16px;
-      margin-top: 4px;
+
+      margin-top: 2px;
       display: flex;
       flex-direction: column;
       align-items: center;

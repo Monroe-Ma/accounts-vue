@@ -1,26 +1,25 @@
 <template>
   <div class="numberPad">
     <div class="pad clearfix">
-      <button @click="inputContent">1</button>
-      <button @click="inputContent">2</button>
-      <button @click="inputContent">3</button>
-      <button @click="remove">删除</button>
-      <button @click="inputContent">4</button>
-      <button @click="inputContent">5</button>
-      <button @click="inputContent">6</button>
-      <button @click="clear">清空</button>
-      <button @click="inputContent">7</button>
-      <button @click="inputContent">8</button>
-      <button @click="inputContent">9</button>
-      <button @click="ok" id="save" :style=" {height:saveHeight +'px'} ">OK</button>
-      <button @click="inputContent" id="zero" :style=" {width:zeroWidth +'px'} ">0</button>
-      <button @click="inputContent">.</button>
+      <button class="a" @click="inputContent">1</button>
+      <button class="b" @click="inputContent">2</button>
+      <button class="c" @click="inputContent">3</button>
+      <button class="d" @click="remove">删除</button>
+      <button class="e" @click="inputContent">4</button>
+      <button class="f" @click="inputContent">5</button>
+      <button class="g" @click="inputContent">6</button>
+      <button class="h" @click="clear">清空</button>
+      <button class="i" @click="inputContent">7</button>
+      <button class="j" @click="inputContent">8</button>
+      <button class="k" @click="inputContent">9</button>
+      <button class="l" @click="ok">OK</button>
+      <button class="m" @click="inputContent">0</button>
+      <button class="n" @click="inputContent">.</button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import clone from "@/lib/clone";
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 @Component
@@ -100,8 +99,75 @@ export default class NumberPad extends Vue {
 
 <style lang="scss" scoped>
 @import "~@/assets/helper.scss";
-
+@function px2vw($px) {
+  @return $px * 100vw/750;
+}
 .pad {
+  margin-top: 10px;
+  display: grid;
+  grid-template:
+    "a b c d"
+    "e f g h"
+    "i j k l"
+    "m m n l" auto/ 23%;
+  grid-column-gap: px2vw(4);
+  grid-row-gap: px2vw(4);
+  > button {
+    background: #fff;
+    border: none;
+    text-align: center;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 18px;
+    color: #333;
+    padding: 18px 0;
+  }
+  .a {
+    grid-area: a;
+  }
+  .b {
+    grid-area: b;
+  }
+  .c {
+    grid-area: c;
+  }
+  .d {
+    grid-area: d;
+  }
+  .e {
+    grid-area: e;
+  }
+  .f {
+    grid-area: f;
+  }
+  .g {
+    grid-area: g;
+  }
+  .h {
+    grid-area: h;
+  }
+  .i {
+    grid-area: i;
+  }
+  .j {
+    grid-area: j;
+  }
+  .k {
+    grid-area: k;
+  }
+  .l {
+    grid-area: l;
+    background: #ff9400;
+    color: #fff;
+  }
+  .m {
+    grid-area: m;
+  }
+  .n {
+    grid-area: n;
+  }
+}
+/* .pad {
   text-align: center;
   > button {
     background: #fff;
@@ -122,7 +188,7 @@ export default class NumberPad extends Vue {
     background: #ff9400;
     float: right;
   }
-}
+} */
 </style>
 
 

@@ -138,7 +138,7 @@ export default class Account extends Vue {
   display: flex;
   justify-content: space-between;
   background: #fff;
-  margin: 10px;
+  margin: 10px 0;
   padding: 0 20px;
   > button {
     margin: 10px 0;
@@ -168,7 +168,7 @@ export default class Account extends Vue {
 }
 ::v-deep .note {
   margin-bottom: 10px;
-  flex-grow: 1;
+  /* flex-grow: 1; */
   > label {
     display: flex;
     flex-direction: column;

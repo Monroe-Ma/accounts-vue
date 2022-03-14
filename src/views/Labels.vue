@@ -43,7 +43,7 @@ export default class Labels extends Vue {
   font-size: 16px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   > .tag {
     min-height: 44px;
     display: flex;
@@ -56,6 +56,7 @@ export default class Labels extends Vue {
     display: flex;
     flex-direction: column;
     background: #fff;
+    margin-left: 9px;
     .iconBg {
       width: 40px;
       height: 40px;
