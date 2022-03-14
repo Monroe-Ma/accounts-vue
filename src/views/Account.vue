@@ -1,7 +1,6 @@
 <template>
   <Layout class-prefix="layout">
-    <Output @update:value="onUpdateAmount" :value="record.amount" />
-    <Tags @update:value="record.tags = $event" />
+    <Tags @update:value="record.tags = $event" ref="onCancelSelectTag" />
     <div class="classesItem">
       <button is-link @click="showPopup">
         {{timeFormat(selectDateStr)}}
@@ -30,6 +29,7 @@
       <Tabs classPrefix="cagney" :data-source="recordTypeList" :value.sync="record.type" />
     </div>
     <FormItem class="note" fileName="备注" placeholder="在这里输入备注" :value.sync="record.notes" />
+    <Output @update:value="onUpdateAmount" :value="record.amount" />
     <NumberPad @update:value="onUpdateAmount" @submit="saveRecord" :value="record.amount" />
   </Layout>
 </template>
@@ -45,7 +45,6 @@ import { writeTypeList } from "@/constants/recordTypeList";
 import Tabs from "../components/Tabs.vue";
 import Output from "@/components/Account/Output.vue";
 import dayjs from "dayjs";
-import clone from "@/lib/clone";
 import { Popup, DatetimePicker } from "vant";
 Vue.use(Popup, DatetimePicker);
 
@@ -56,6 +55,7 @@ type RecordItem = {
   type: string;
   amount: number;
   createAt?: Date;
+  currentTime?: Date;
 };
 @Component({
   components: { Tags, FormItem, NumberPad, Tabs, Output },
@@ -113,14 +113,22 @@ export default class Account extends Vue {
   onUpdateAmount(value: number) {
     this.record.amount = value;
   }
+  onCancelSelectTag() {
+    this.$refs.tags = [];
+  }
   saveRecord() {
     this.record.createAt = this.selectDateStr;
-
+    this.record.currentTime = new Date();
     this.$store.commit("createRecord", this.record);
     if (this.$store.state.createRecordError === null) {
       window.alert("已保存");
     }
+    console.log("createRecord", this.record);
+
     this.record.notes = "";
+    this.selectDateStr = new Date();
+    this.record.type = "-";
+    // this.record.tags = [];
   }
 }
 </script>

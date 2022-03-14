@@ -6,6 +6,7 @@
         :key="tag.id "
         :class="{selected:selectTags.indexOf(tag)>=0} "
         @click="toggle(tag)"
+        :value="onCancel "
       >
         <span class="iconBg">
           <Icon :name=" tag.iconName " />
@@ -24,10 +25,16 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Component } from "vue-property-decorator";
+import { Component, Prop } from "vue-property-decorator";
 
 @Component
 export default class Tags extends Vue {
+  @Prop() value!: string[];
+
+  onCancel() {
+    this.selectTags = [];
+  }
+
   get tagList() {
     return this.$store.state.tagList;
   }
@@ -48,7 +55,6 @@ export default class Tags extends Vue {
     }
 
     this.$emit("update:value", this.selectTags);
-    console.log("update:value", this.selectTags);
   }
   create() {
     const name = window.prompt("请输入标签");

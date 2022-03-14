@@ -64,7 +64,7 @@
                 <li>
                   <span>{{tagString(item.tags)}}</span>
                   <span>
-                    <span class="notes">{{timeFormat(item.createAt)}}</span>
+                    <span class="notes">{{timeFormat(item.currentTime)}}</span>
                     <span class="notes">{{item.notes}}</span>
                   </span>
                 </li>
@@ -133,7 +133,7 @@ export default class Book extends Vue {
     this.type = value;
   }
   timeFormat(value: Date) {
-    return dayjs(value).format("HH:ss:mm");
+    return dayjs(value).format("HH:mm:ss");
   }
 
   onCancel() {
@@ -310,14 +310,12 @@ export default class Book extends Vue {
     overflow: auto;
     width: 300px;
     margin: 0 auto;
-
-    background: #fff;
+    background: #f6f6f6;
+    border-radius: 8px;
     .type-tabs-item {
-      border-radius: 8px;
       font-size: 18px;
       color: #999;
-
-      height: 54px;
+      height: 48px;
       &.selected {
         border-radius: 8px;
         background: #ff9400;
