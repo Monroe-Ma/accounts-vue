@@ -167,28 +167,6 @@ export default class NumberPad extends Vue {
     grid-area: n;
   }
 }
-/* .pad {
-  text-align: center;
-  > button {
-    background: #fff;
-    border: none;
-    width: 24%;
-    padding: 18px 0;
-    text-align: center;
-    float: left;
-    margin: 2px;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 18px;
-    color: #333;
-  }
-
-  #save {
-    color: #fff;
-    background: #ff9400;
-    float: right;
-  }
-} */
 </style>
 
 

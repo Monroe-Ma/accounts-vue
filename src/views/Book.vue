@@ -246,6 +246,7 @@ export default class Book extends Vue {
 </script>
 
 <style lang="scss" scoped>
+@import "~@/assets/helper.scss";
 %item {
   padding: 8px 16px;
   line-height: 24px;
@@ -329,7 +330,7 @@ export default class Book extends Vue {
 }
 
 .noRecord {
-  margin-top: 200px;
+  margin-top: px2vw(200);
   display: flex;
   flex-direction: column;
   justify-content: center;

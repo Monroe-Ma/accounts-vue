@@ -68,6 +68,7 @@ export default class Tags extends Vue {
 
 <style lang="scss" scoped>
 @import "~@/assets/reset.scss";
+@import "~@/assets/helper.scss";
 
 .tags {
   font-size: 14px;
@@ -78,12 +79,15 @@ export default class Tags extends Vue {
   > .current {
     display: flex;
     flex-wrap: wrap;
+    justify-content: flex-start;
+    @media (max-width: 375px) {
+      margin-left: 10px;
+    }
     > li {
       $h: 24px;
-      margin-bottom: 14px;
-      line-height: $h;
+      margin-bottom: 12px;
+      line-height: 20px;
       border-radius: 100px;
-
       margin-top: 2px;
       display: flex;
       flex-direction: column;
@@ -91,19 +95,19 @@ export default class Tags extends Vue {
       width: 78px;
       > .iconBg {
         display: block;
-        width: 40px;
-        height: 40px;
+        width: px2vw(80);
+        height: px2vw(80);
         background: #eee;
-        border-radius: 20px;
+        border-radius: px2vw(40);
         text-align: center;
         display: flex;
         justify-content: center;
         align-items: center;
         .icon {
-          width: 24px;
-          height: 24px;
+          width: px2vw(48);
+          height: px2vw(48);
           fill: #ddd;
-          line-height: 40px;
+          line-height: px2vw(80);
         }
       }
       &.selected {

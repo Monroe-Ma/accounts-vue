@@ -89,7 +89,7 @@ export default class EditLabel extends Vue {
 .button-wrapper {
   text-align: center;
   padding: 16px;
-  margin-top: 620px;
+  margin-top: px2vw(620);
 }
 ::v-deep .delete {
   background: none;
