@@ -102,7 +102,7 @@ export default class Statistics extends Vue {
 
       if (payList[i]) {
         const value = payList[i].amount;
-        // const name = payList[i].tags.name;
+        const name = payList[i].tags[0]?.name;
       }
     }
 
