@@ -1,7 +1,7 @@
 <template>
   <Layout>
     <div class="wrapper">
-      {{mouthPay}}
+      {{monthPay}}
       <MonthChart class="chart" :options="monthOptions" />
     </div>
     <div class="wrapper">
@@ -46,40 +46,38 @@ export default class Statistics extends Vue {
     const newList = clone(this.recordList);
     const result = [];
     for (let i = 0; i < 12; i++) {
-      const mouth = new Date();
-      const mouthString = dayjs(mouth).subtract(i, "month").format("YYYY-MM");
+      const month = new Date();
+      const monthString = dayjs(month).subtract(i, "month").format("YYYY-MM");
 
-      const mouthList = newList.filter((t) => {
-        return dayjs(t.createAt).format("YYYY-MM") === mouthString;
+      const monthList = newList.filter((t) => {
+        return dayjs(t.createAt).format("YYYY-MM") === monthString;
       });
-      const paySum = mouthList
+      const paySum = monthList
         .filter((t) => t.type === "-")
         .reduce((sum, item) => {
           return sum + item.amount;
         }, 0);
-      const incomeSum = mouthList
+      const incomeSum = monthList
         .filter((t) => t.type === "+")
         .reduce((sum, item) => {
           return sum + item.amount;
         }, 0);
       result.push({
-        yearMouth: mouthString,
-        mouthPay: paySum,
-        mouthIncome: incomeSum,
+        yearMonth: monthString,
+        monthPay: paySum,
+        monthIncome: incomeSum,
       });
     }
-    // console.log(result);
 
-    const key = result.map((t) => t.yearMouth);
-    // console.log("key", key);
-    // 【1，2，3 】
-    const yearMouth = key.sort((a: any, b: any) => a.valueOf() - b.valueOf());
+    // 排序要对整个result数组排序才对吧
+    result.sort((prev, next) => prev.yearMonth > next.yearMonth ? 1 : -1)
 
-    const mouthPay = result.map((t) => t.mouthPay);
-    const mouthIncome = result.map((t) => t.mouthIncome);
-    return { yearMouth, mouthPay, mouthIncome };
+    const yearMonth = result.map(t => t.yearMonth)
+    const monthPay = result.map((t) => t.monthPay);
+    const monthIncome = result.map((t) => t.monthIncome);
+    return { yearMonth, monthPay, monthIncome };
   }
-  get mouthPay() {
+  get monthPay() {
     console.log("this.recordList", this.recordList);
 
     const newList = clone(this.recordList);
@@ -109,7 +107,6 @@ export default class Statistics extends Vue {
     }
 
     arrayPay.push();
-    console.log("pay", payList);
 
     // const paySum = revenueList
     //   .filter((t) => t.type === "-")
@@ -169,7 +166,7 @@ export default class Statistics extends Vue {
             interval: 0,
           },
           // prettier-ignore
-          data: this.monthList.yearMouth,
+          data: this.monthList.yearMonth,
         },
       ],
       yAxis: [
@@ -181,7 +178,7 @@ export default class Statistics extends Vue {
         {
           name: "收入",
           type: "bar",
-          data: this.monthList.mouthIncome,
+          data: this.monthList.monthIncome,
           markPoint: {
             data: [
               { type: "max", name: "Max" },
@@ -198,7 +195,7 @@ export default class Statistics extends Vue {
         {
           name: "支出",
           type: "bar",
-          data: this.monthList.mouthPay,
+          data: this.monthList.monthPay,
           markPoint: {
             data: [
               { name: "Max", value: 182.2, xAxis: 7, yAxis: 183 },
