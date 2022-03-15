@@ -1,6 +1,6 @@
 <template>
   <Layout class-prefix="layout">
-    <Tags @update:value="record.tags = $event" ref="onCancelSelectTag" />
+    <Tags @update:value="record.tags = $event" ref="tagsRef" />
     <div class="classesItem">
       <button is-link @click="showPopup">
         {{timeFormat(selectDateStr)}}
@@ -50,7 +50,7 @@ Vue.use(Popup, DatetimePicker);
 
 const tagList = tagStore.fetchTag();
 type RecordItem = {
-  tags: string[];
+  tags: Tag[];
   notes: string;
   type: string;
   amount: number;
@@ -70,7 +70,6 @@ export default class Account extends Vue {
   currentDate = new Date();
   show = false;
   selectDateStr = new Date();
-  // selectDateStr: string = dayjs(new Date()).format("YYYY-MM-DD");
   record: RecordItem = {
     tags: [],
     notes: "",
@@ -114,7 +113,7 @@ export default class Account extends Vue {
     this.record.amount = value;
   }
   onCancelSelectTag() {
-    this.$refs.tags = [];
+    (this.$refs.tagsRef as any).onCancelTag();
   }
   saveRecord() {
     this.record.createAt = this.selectDateStr;
@@ -128,7 +127,7 @@ export default class Account extends Vue {
     this.record.notes = "";
     this.selectDateStr = new Date();
     this.record.type = "-";
-    // this.record.tags = [];
+    this.onCancelSelectTag();
   }
 }
 </script>

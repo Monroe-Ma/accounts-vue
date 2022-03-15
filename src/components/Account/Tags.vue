@@ -6,7 +6,7 @@
         :key="tag.id "
         :class="{selected:selectTags.indexOf(tag)>=0} "
         @click="toggle(tag)"
-        :value="onCancel "
+        :value="onCancelTag "
       >
         <span class="iconBg">
           <Icon :name=" tag.iconName " />
@@ -31,8 +31,9 @@ import { Component, Prop } from "vue-property-decorator";
 export default class Tags extends Vue {
   @Prop() value!: string[];
 
-  onCancel() {
+  onCancelTag() {
     this.selectTags = [];
+    this.$emit("update:value", this.selectTags);
   }
 
   get tagList() {

@@ -1,7 +1,6 @@
 <template>
   <Layout>
     <div class="wrapper">
-      {{mouthPay}}
       <MonthChart class="chart" :options="monthOptions" />
     </div>
     <div class="wrapper">
@@ -34,21 +33,18 @@ export default class Statistics extends Vue {
   beforeCreate() {
     this.$store.commit("fetchRecords");
   }
-
   mounted() {
     this.$store.commit("fetchRecords");
   }
   get recordList() {
     return (this.$store.state as RootState).recordList;
   }
-
   get monthList() {
     const newList = clone(this.recordList);
     const result = [];
     for (let i = 0; i < 12; i++) {
       const mouth = new Date();
       const mouthString = dayjs(mouth).subtract(i, "month").format("YYYY-MM");
-
       const mouthList = newList.filter((t) => {
         return dayjs(t.createAt).format("YYYY-MM") === mouthString;
       });
@@ -68,62 +64,32 @@ export default class Statistics extends Vue {
         mouthIncome: incomeSum,
       });
     }
-    // console.log(result);
-
     const key = result.map((t) => t.yearMouth);
-    // console.log("key", key);
-    // 【1，2，3 】
     const yearMouth = key.sort((a: any, b: any) => a.valueOf() - b.valueOf());
-
+    result.sort((prev, next) => (prev.yearMouth > next.yearMouth ? 1 : -1));
     const mouthPay = result.map((t) => t.mouthPay);
     const mouthIncome = result.map((t) => t.mouthIncome);
     return { yearMouth, mouthPay, mouthIncome };
   }
   get mouthPay() {
-    console.log("this.recordList", this.recordList);
-
     const newList = clone(this.recordList);
-    console.log("newList", newList);
-
     const revenueList = newList.filter(
       (c) => c.createAt.indexOf(dayjs(new Date()).format("YYYY-MM-DD")) >= 0
     );
-    console.log("revenueList", revenueList);
     const payList = revenueList.filter((t) => {
       if (t.type === "-") {
         return t.tags;
       }
-      return;
     });
-
-    console.log("pay", clone(payList));
     const arrayPay: any[] = [];
-
     for (let i = 0; i < payList.length; i++) {
-      const element = arrayPay[i];
-
       if (payList[i]) {
         const value = payList[i].amount;
-        // const name = payList[i].tags.name;
+        const name = payList[i].tags[0]?.name;
+        arrayPay.push({ value: value, name: name });
       }
     }
-
-    arrayPay.push();
-    console.log("pay", payList);
-
-    // const paySum = revenueList
-    //   .filter((t) => t.type === "-")
-    //   .reduce((sum, item) => {
-    //     return sum + item.amount;
-    //   }, 0);
-
-    // const incomeSum = revenueList
-    //   .filter((t) => t.type === "+")
-    //   .reduce((sum, item) => {
-    //     return sum + item.amount;
-    //   }, 0);
-
-    return;
+    return arrayPay;
   }
 
   get monthOptions() {
@@ -253,13 +219,7 @@ export default class Statistics extends Vue {
           labelLine: {
             show: false,
           },
-          data: [
-            { value: 1048, name: "Search Engine" },
-            { value: 735, name: "Direct" },
-            { value: 580, name: "Email" },
-            { value: 484, name: "Union Ads" },
-            { value: 300, name: "Video Ads" },
-          ],
+          data: this.mouthPay,
         },
       ],
     };
