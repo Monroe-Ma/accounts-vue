@@ -1,6 +1,6 @@
 <template>
   <Layout class-prefix="layout">
-    <Tags @update:value="record.tags = $event" ref="onCancelSelectTag" />
+    <Tags @update:value="record.tags = $event" ref="tagsRef" />
     <div class="classesItem">
       <button is-link @click="showPopup">
         {{timeFormat(selectDateStr)}}
@@ -114,7 +114,7 @@ export default class Account extends Vue {
     this.record.amount = value;
   }
   onCancelSelectTag() {
-    this.$refs.tags = [];
+    this.$refs.tagsRef.onCancel()
   }
   saveRecord() {
     this.record.createAt = this.selectDateStr;
@@ -128,6 +128,7 @@ export default class Account extends Vue {
     this.record.notes = "";
     this.selectDateStr = new Date();
     this.record.type = "-";
+    this.onCancelSelectTag()
     // this.record.tags = [];
   }
 }

@@ -33,6 +33,7 @@ export default class Tags extends Vue {
 
   onCancel() {
     this.selectTags = [];
+    this.$emit("update:value", this.selectTags);
   }
 
   get tagList() {
